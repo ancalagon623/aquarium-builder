@@ -7,8 +7,6 @@ phases:
       - npm install
 
       - pip install --upgrade awscli
-
-      - cd ..
 artifacts:
   files:
     - "**/*"
