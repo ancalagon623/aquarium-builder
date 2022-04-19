@@ -1,5 +1,8 @@
 version: 0.2
 phases:
+  pre-build:
+    commands:
+      - cd backend
   install:
     commands:
       - cd backend
@@ -10,4 +13,4 @@ phases:
 artifacts:
   files:
     - "**/*"
-  base-directory: backend
+  base-directory: "./backend"
