@@ -5,3 +5,7 @@ phases:
       - npm install
 
       - pip install --upgrade awscli
+artifacts:
+  files:
+    - "**/*"
+  base-directory: backend
