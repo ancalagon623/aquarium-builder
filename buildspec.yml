@@ -2,9 +2,13 @@ version: 0.2
 phases:
   install:
     commands:
+      - cd backend
+
       - npm install
 
       - pip install --upgrade awscli
+
+      - cd ..
 artifacts:
   files:
     - "**/*"
