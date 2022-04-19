@@ -7,6 +7,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get('/', (req, res) => {
+  res.send('You made it');
+});
 app.get('/welcome', (req, res) => res.send('Fish and Chips!'));
 app.use('/test', routes);
 
