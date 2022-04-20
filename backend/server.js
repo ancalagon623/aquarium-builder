@@ -26,6 +26,6 @@ app.get('/', (req, res) => {
 app.get('/welcome', (req, res) => res.send('Fish and Chips!'));
 app.use('/test', routes);
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('Server running on port 8000.');
 });
