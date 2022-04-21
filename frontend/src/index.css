@@ -34,3 +34,7 @@ code {
 .user-link:hover {
   color: whitesmoke;
 }
+
+.login-tag {
+  text-align: center;
+}
