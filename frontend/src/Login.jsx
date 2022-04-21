@@ -1,6 +1,5 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Login = () => {
-  const loggedIn = useStore()
-}
-
+  // const loggedIn = useStore();
+};

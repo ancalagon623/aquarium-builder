@@ -77,7 +77,6 @@ const HeaderContainer = styled.div`
 
 const TopHeader = styled.div`
   display: grid;
-  position: relative;
   grid-template-columns: 5fr 1fr;
   text-align: left;
 `;
@@ -96,11 +95,11 @@ const UserControls = styled.div`
 `;
 
 const Navigator = styled.nav`
-  position: absolute;
+  position: fixed;
   border-style: solid;
   border-radius: 3px;
   border-color: wheat;
-  top: 100%;
+  top: 95px;
   width: 100%;
   background-color: var(--theme);
 `;
@@ -109,11 +108,10 @@ const NavList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  left: 0;
 `;
 
 const NavItem = styled.li`
-  float: left;
+  display: inline-block;
   padding: 1.2rem;
   margin: 0.3em;
   border: 3px solid transparent;
