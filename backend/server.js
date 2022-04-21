@@ -28,9 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const setupDevDatabase = require('./routes/db-setup');
 
-// app.get('/', (req, res) => {
-//   res.send('You made it');
-// });
+app.get('/', (req, res) => {
+  res.send('You made it');
+});
 app.get('/db-setup', setupDevDatabase);
 app.use('/test', routes);
 
