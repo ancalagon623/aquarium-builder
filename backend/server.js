@@ -31,7 +31,7 @@ const setupDevDatabase = require('./routes/db-setup');
 app.get('/', (req, res) => {
   res.send('You made it');
 });
-app.get('/db-setup', setupDevDatabase);
+app.post('/db-setup', setupDevDatabase);
 app.use('/api', routes);
 
 app.listen(process.env.PORT || 8000, () => {
