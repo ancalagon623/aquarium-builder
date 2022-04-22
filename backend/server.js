@@ -7,7 +7,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const routes = require('./routes');
 const { pool } = require('./db');
 
 pool.connect((err) => {
@@ -18,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONT_END_APP,
+    origin: '*',
     optionsSuccessStatus: 200,
   })
 );
@@ -26,13 +25,14 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const routes = require('./routes');
 const setupDevDatabase = require('./routes/db-setup');
 
 app.get('/', (req, res) => {
   res.send('You made it');
 });
 app.get('/db-setup', setupDevDatabase);
-app.use('/test', routes);
+app.use('/api', routes);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log('Server running on port 8000.');

@@ -20,6 +20,20 @@ sql.insertOneUser = (values) => ({
   values,
 });
 
+sql.oneUser = (username) => ({
+  text: `
+      SELECT * FROM app_users WHERE username = $1;
+    `,
+  values: [username],
+});
+
+sql.userById = (id) => ({
+  text: `
+      SELECT * FROM app_users WHERE user_id = $1;
+    `,
+  values: [id],
+});
+
 sql.createBuildsTable = `
 `;
 

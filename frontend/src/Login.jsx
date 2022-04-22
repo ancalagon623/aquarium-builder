@@ -20,6 +20,8 @@ const Login = () => {
     e.preventDefault();
     if (username && password) {
       setValidationError([]);
+      setUsername('');
+      setPassword('');
       // login
     } else {
       setValidationError([]);
@@ -134,6 +136,7 @@ const ValError = styled.label`
 
 const Input = styled.input`
   display: block;
+  height: 25px;
   width: 100%;
   margin-top: 10px;
 `;
