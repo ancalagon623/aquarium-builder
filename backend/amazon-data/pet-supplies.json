@@ -1,0 +1,99 @@
+{
+  "request_info": { "success": true },
+  "current_category": {
+    "id": "2619534011",
+    "name": "Pet Supplies",
+    "has_children": true,
+    "is_root": true,
+    "path": "Pet Supplies",
+    "link": "https://www.amazon.com/s?node=2619534011",
+    "type": "standard",
+    "domain": "amazon.com"
+  },
+  "categories": [
+    {
+      "id": "2975446011",
+      "name": "Fish & Aquatic Pets",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Fish & Aquatic Pets",
+      "link": "https://www.amazon.com/s?node=2975446011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    },
+    {
+      "id": "2975481011",
+      "name": "Horses",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Horses",
+      "link": "https://www.amazon.com/s?node=2975481011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    },
+    {
+      "id": "2975221011",
+      "name": "Birds",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Birds",
+      "link": "https://www.amazon.com/s?node=2975221011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    },
+    {
+      "id": "2975312011",
+      "name": "Dogs",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Dogs",
+      "link": "https://www.amazon.com/s?node=2975312011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    },
+    {
+      "id": "2975504011",
+      "name": "Reptiles & Amphibians",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Reptiles & Amphibians",
+      "link": "https://www.amazon.com/s?node=2975504011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    },
+    {
+      "id": "2975520011",
+      "name": "Small Animals",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Small Animals",
+      "link": "https://www.amazon.com/s?node=2975520011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    },
+    {
+      "id": "2975241011",
+      "name": "Cats",
+      "has_children": true,
+      "is_root": false,
+      "path": "Pet Supplies > Cats",
+      "link": "https://www.amazon.com/s?node=2975241011",
+      "parent_id": "2619534011",
+      "parent_name": "Pet Supplies",
+      "type": "standard",
+      "domain": "amazon.com"
+    }
+  ]
+}

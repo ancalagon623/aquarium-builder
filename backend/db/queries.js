@@ -83,7 +83,9 @@ sql.addOneEquipment = (e) => `
 sql.addEquipment = (equipmentArray) => {
   const strings = equipmentArray.map(
     (e) =>
-      `('${e.eq_name.replace("'", "''")}', '${e.link}', '${e.img_url}', '${e.seller}', '${e.seller_site}', '${e.type.replace("'", "''")}', '${e.price}')`
+      `('${e.eq_name.replace("'", "''")}', '${e.link}', '${e.img_url}', '${
+        e.seller
+      }', '${e.seller_site}', '${e.type.replace("'", "''")}', '${e.price}')`
   );
   return `
     INSERT INTO equipment (eq_name, link, img_url, seller, seller_site, type, price)
@@ -101,7 +103,7 @@ sql.addEquipment = (equipmentArray) => {
 
 //   return {
 //     text: `
-//     INSERT INTO equipment (eq_name, link, img_url, seller, seller_site, type, price) 
+//     INSERT INTO equipment (eq_name, link, img_url, seller, seller_site, type, price)
 //       VALUES (${params.join('), (')});
 //   `,
 //     values: strings,
