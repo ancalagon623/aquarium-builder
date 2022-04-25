@@ -17,7 +17,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONT_END_APP,
+    origin:
+      process.env.NODE_ENV === 'production' ? process.env.FRONT_END_APP : '*',
     optionsSuccessStatus: 200,
   })
 );

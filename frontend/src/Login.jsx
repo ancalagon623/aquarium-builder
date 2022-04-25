@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from './reducers/actions';
 
 const Login = () => {
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const loginError = useSelector((state) => state.user.loginError);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [validationError, setValidationError] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (loggedIn === true) {
+      navigate(-1);
+    }
+  }, [loggedIn]);
 
   const handleInputChange = (e) => {
     if (e.target.id === 'username') {
@@ -18,13 +29,14 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setValidationError([]);
+    dispatch({ type: 'LOGIN_REQUESTED' });
     if (username && password) {
-      setValidationError([]);
       setUsername('');
       setPassword('');
-      // login
+      // dispatch login request here
+      dispatch(login({ username, password }));
     } else {
-      setValidationError([]);
       if (!username) {
         setValidationError((s) => [...s, 'username']);
       }
@@ -32,8 +44,6 @@ const Login = () => {
         setValidationError((s) => [...s, 'password']);
       }
     }
-
-    // time to set up Redux. Here is where GET /api/login happens.
   };
 
   const goBack = () => {
@@ -67,6 +77,9 @@ const Login = () => {
             <ValError>Password is required</ValError>
           ) : null}
           <LoginButton type="submit">Log In</LoginButton>
+          {loginError.message === 'Unauthorized' ? (
+            <ValError>Invalid username or password</ValError>
+          ) : null}
         </LoginForm>
       </LoginBackground>
     </Background>
