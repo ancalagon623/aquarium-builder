@@ -17,7 +17,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: '*',
+    origin:
+      process.env.NODE_ENV === 'production' ? process.env.FRONT_END_APP : '*',
     optionsSuccessStatus: 200,
   })
 );
@@ -31,7 +32,7 @@ const setupDevDatabase = require('./routes/db-setup');
 app.get('/', (req, res) => {
   res.send('You made it');
 });
-app.get('/db-setup', setupDevDatabase);
+app.post('/db-setup', setupDevDatabase);
 app.use('/api', routes);
 
 app.listen(process.env.PORT || 8000, () => {

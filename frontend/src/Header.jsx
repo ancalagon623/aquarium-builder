@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const logOutHandler = () => {
-    // logout here
     console.log('click');
   };
 
@@ -16,17 +15,17 @@ const Header = () => {
         <Title>Aquarium Builder</Title>
         <UserControls>
           <div>
-            {!loggedIn ? (
+            {!user.loggedIn ? (
               <Link className="user-link" to="/login">
                 Log In
               </Link>
             ) : (
               <Link className="user-link" to="/user">
-                Username
+                Hello, {user.username}!
               </Link>
             )}
             {' | '}
-            {!loggedIn ? (
+            {!user.loggedIn ? (
               <Link className="user-link" to="/signup">
                 Sign Up
               </Link>
@@ -34,7 +33,7 @@ const Header = () => {
               <Link
                 className="user-link"
                 onClick={() => logOutHandler()}
-                to="/start"
+                to="/"
               >
                 Log out
               </Link>
