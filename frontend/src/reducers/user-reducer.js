@@ -9,8 +9,7 @@ const initialState = {
 // eslint-disable-next-line
 const userReducer = (state = initialState, {type, payload}) => {
   if (type === 'LOGIN_SUCCESS') {
-    localStorage.setItem('token', JSON.stringify(payload.auth_token));
-    debugger;
+    localStorage.setItem('token', payload.auth_token);
     return {
       name: payload.user.name,
       username: payload.user.username,

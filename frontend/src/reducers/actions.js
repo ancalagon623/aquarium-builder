@@ -21,3 +21,28 @@ export const login = (loginObj) => async (dispatch) => {
     }
   }
 };
+
+// eslint-disable-next-line camelcase
+export const createBuild = (buildInfo) => async (dispatch) => {
+  const token = localStorage.getItem('token');
+
+  const options = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  try {
+    const { data, status } = await axios.post(
+      `${process.env.REACT_APP_BACKEND}/api/me/aquariums`,
+      buildInfo,
+      options
+    );
+
+    if (status === 200) {
+      dispatch({ type: 'BUILD_CREATED', payload: data });
+    }
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch({ type: 'LOGIN_REQUIRED', payload: err.response });
+    }
+  }
+};

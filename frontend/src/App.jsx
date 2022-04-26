@@ -1,22 +1,40 @@
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import Header from './Header';
 import UserPage from './UserPage';
 import Start from './Start';
 import NewBuild from './NewBuild';
+import EditBuild from './EditBuild';
 
-const App = () => (
-  <MainDiv>
-    <Header />
-    <Content>
-      <Routes>
-        <Route path="/" element={<Start id="start" />} />
-        <Route path="create" element={<NewBuild id="new-build" />} />
-        <Route path="user" element={<UserPage id="user-page" />} />
-      </Routes>
-    </Content>
-  </MainDiv>
-);
+const App = () => {
+  const currentBuild = useSelector((state) => state.currentBuild);
+  const currentUser = useSelector((state) => state.user);
+  const categories = useSelector((state) => state.categories);
+
+  useEffect(() => {}, []);
+
+  return (
+    <MainDiv>
+      <Header />
+      <Content>
+        <Routes>
+          <Route path="/" element={<Start />} />
+          <Route
+            path="create"
+            element={<NewBuild user={currentUser} build={currentBuild} />}
+          />
+          <Route path="user" element={<UserPage user={currentUser} />} />
+          <Route
+            path="builds/:buildId/edit"
+            element={<EditBuild build={currentBuild} categories={categories} />}
+          />
+        </Routes>
+      </Content>
+    </MainDiv>
+  );
+};
 
 export default App;
 
