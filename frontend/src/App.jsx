@@ -2,17 +2,17 @@ import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './Header';
 import UserPage from './UserPage';
-import Create from './Create';
 import Start from './Start';
+import NewBuild from './NewBuild';
 
 const App = () => (
   <MainDiv>
     <Header />
     <Content>
       <Routes>
-        <Route path="/" element={<Start />} />
-        <Route path="create" element={<Create />} />
-        <Route path="user" element={<UserPage />} />
+        <Route path="/" element={<Start id="start" />} />
+        <Route path="create" element={<NewBuild id="new-build" />} />
+        <Route path="user" element={<UserPage id="user-page" />} />
       </Routes>
     </Content>
   </MainDiv>

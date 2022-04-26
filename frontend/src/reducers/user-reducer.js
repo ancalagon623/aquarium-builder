@@ -34,6 +34,10 @@ const userReducer = (state = initialState, {type, payload}) => {
       loginError: {},
     };
   }
+  if (type === 'LOGOUT') {
+    localStorage.removeItem('token');
+    return initialState;
+  }
   return state;
 };
 

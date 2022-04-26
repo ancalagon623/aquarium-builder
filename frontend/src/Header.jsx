@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Header = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const logOutHandler = () => {
-    console.log('click');
+    dispatch({ type: 'LOGOUT' });
   };
 
   return (

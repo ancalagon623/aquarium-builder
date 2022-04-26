@@ -10,6 +10,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body::selection {
+  background: rgb(90, 177, 184);
+  color: rgb(1, 4, 36);
+}
+
 :root {
   --theme: #074061be;
 }
