@@ -33,6 +33,10 @@ const userReducer = (state = initialState, {type, payload}) => {
       loginError: {},
     };
   }
+  if (type === 'LOGIN_REQUIRED') {
+    payload.navigate('/login');
+    return state;
+  }
   if (type === 'LOGOUT') {
     localStorage.removeItem('token');
     return initialState;

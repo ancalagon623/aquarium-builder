@@ -9,10 +9,6 @@ import NewBuild from './NewBuild';
 import EditBuild from './EditBuild';
 
 const App = () => {
-  const currentBuild = useSelector((state) => state.currentBuild);
-  const currentUser = useSelector((state) => state.user);
-  const categories = useSelector((state) => state.categories);
-
   useEffect(() => {}, []);
 
   return (
@@ -21,15 +17,9 @@ const App = () => {
       <Content>
         <Routes>
           <Route path="/" element={<Start />} />
-          <Route
-            path="create"
-            element={<NewBuild user={currentUser} build={currentBuild} />}
-          />
-          <Route path="user" element={<UserPage user={currentUser} />} />
-          <Route
-            path="builds/:buildId/edit"
-            element={<EditBuild build={currentBuild} categories={categories} />}
-          />
+          <Route path="user" element={<UserPage />} />
+          <Route path="builds/create" element={<NewBuild />} />
+          <Route path="builds/edit" element={<EditBuild />} />
         </Routes>
       </Content>
     </MainDiv>

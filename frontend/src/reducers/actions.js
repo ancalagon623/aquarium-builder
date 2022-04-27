@@ -23,7 +23,7 @@ export const login = (loginObj) => async (dispatch) => {
 };
 
 // eslint-disable-next-line camelcase
-export const createBuild = (buildInfo) => async (dispatch) => {
+export const createBuild = (buildInfo, navigate) => async (dispatch) => {
   const token = localStorage.getItem('token');
 
   const options = {
@@ -38,11 +38,38 @@ export const createBuild = (buildInfo) => async (dispatch) => {
     );
 
     if (status === 200) {
-      dispatch({ type: 'BUILD_CREATED', payload: data });
+      dispatch({ type: 'BUILD_CREATED', payload: { data } });
+      navigate('/builds/edit');
     }
   } catch (err) {
     if (err.response.status === 401) {
-      dispatch({ type: 'LOGIN_REQUIRED', payload: err.response });
+      dispatch({
+        type: 'LOGIN_REQUIRED',
+        payload: { error: err.response, navigate },
+      });
+    }
+  }
+};
+
+export const getCategories = () => async (dispatch) => {
+  const token = localStorage.getItem('token');
+
+  const options = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  try {
+    const { data, status } = await axios.get(
+      `${process.env.REACT_APP_BACKEND}/api/categories`,
+      options
+    );
+
+    if (status === 200) {
+      dispatch({ type: 'CATEGORIES_RECEIVED', payload: data });
+    }
+  } catch (err) {
+    if (err.response.status === 401) {
+      return null;
     }
   }
 };

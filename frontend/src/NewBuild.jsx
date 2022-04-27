@@ -5,19 +5,13 @@ import styled from 'styled-components';
 import { createBuild } from './reducers/actions';
 
 const NewBuild = () => {
-  const currentBuild = useSelector((state) => state.currentBuild);
+  const currentBuild = useSelector((state) => state.builds.currentBuild);
   const currentUser = useSelector((state) => state.user);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [validationError, setValidationError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (currentBuild.user_id === currentUser.user_id) {
-      navigate(`/builds/${currentBuild.id}/edit`);
-    }
-  }, [currentBuild]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -29,7 +23,7 @@ const NewBuild = () => {
       setValidationError('Name must be less than 50 characters');
     }
     if (name && name.length <= 50) {
-      dispatch(createBuild({ name, description }));
+      dispatch(createBuild({ name, description }, navigate));
     }
   };
 

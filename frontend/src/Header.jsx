@@ -49,7 +49,7 @@ const Header = () => {
             <NavItem>Home</NavItem>
           </Link>
 
-          <Link className="nav-link" to="/create">
+          <Link className="nav-link" to="builds/create">
             <NavItem>Build an Aquarium</NavItem>
           </Link>
 

@@ -104,21 +104,8 @@ sql.newBuild = (buildInfo, user_id) => ({
   values: [buildInfo.name, buildInfo.description || null, user_id],
 });
 
-// sql.addEquipment = (equipmentArray) => {
-//   const strings = equipmentArray.map(
-//     (e) =>
-//       `${e.eq_name}, ${e.link}, ${e.img_url}, ${e.seller}, ${e.seller_site}, ${e.type}, ${e.price}`
-//   );
-
-//   const params = strings.map((e, i) => `$${i + 1}`);
-
-//   return {
-//     text: `
-//     INSERT INTO equipment (eq_name, link, img_url, seller, seller_site, type, price)
-//       VALUES (${params.join('), (')});
-//   `,
-//     values: strings,
-//   };
-// };
+sql.getAllCategories = () => `
+  SELECT DISTINCT type FROM equpiment;
+`;
 
 module.exports = sql;
