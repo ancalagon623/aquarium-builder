@@ -1,15 +1,23 @@
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Header from './Header';
 import UserPage from './UserPage';
 import Start from './Start';
 import NewBuild from './NewBuild';
 import EditBuild from './EditBuild';
+import AddEquipment from './AddEquipment';
+import { hydrateUserInfo } from './reducers/actions';
 
 const App = () => {
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(hydrateUserInfo(token));
+    }
+  }, []);
 
   return (
     <MainDiv>
@@ -20,6 +28,7 @@ const App = () => {
           <Route path="user" element={<UserPage />} />
           <Route path="builds/create" element={<NewBuild />} />
           <Route path="builds/edit" element={<EditBuild />} />
+          <Route path="builds/edit/add-equipment" element={<AddEquipment />} />
         </Routes>
       </Content>
     </MainDiv>

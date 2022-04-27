@@ -1,13 +1,17 @@
 const { pool, sql } = require('../db');
 
-const getAllCategories = async (req, res) => {
-  const result = await pool.query(sql.getAllCategories()).catch((err) => {
-    req.send(500, 'Internal Server Error');
-  });
+exports.getEquipmentInCategory = async (req, res) => {
+  const { categoryName } = req.params;
 
-  if (result.rows.length) {
-    req.send(result.rows);
-  }
+  const { rows } = await pool.query(sql.getEquipmentInCategory(categoryName));
+
+  res.send(rows);
 };
 
-module.exports = getAllCategories;
+exports.getAllCategories = async (req, res) => {
+  const result = await pool.query(sql.getAllCategories());
+
+  if (result.rows.length) {
+    res.send(result.rows);
+  }
+};

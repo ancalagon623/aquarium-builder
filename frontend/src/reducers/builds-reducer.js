@@ -5,6 +5,7 @@ const initialState = () => {
     builds,
     currentBuild: {
       user_id: 0,
+      bld_id: 0,
       editing: false,
       equipment: [],
       name: '',
@@ -21,8 +22,18 @@ const buildReducer = (state = initialState(), { type, payload }) => {
       currentBuild: {
         ...state.currentBuild,
         user_id: payload.data.user_id,
+        bld_id: payload.data.bld_id,
         name: payload.data.bld_name,
         description: payload.data.bld_description,
+      },
+    };
+  }
+  if (type === 'EQUIPMENT_ADDED') {
+    return {
+      ...state,
+      currentBuild: {
+        ...state.currentBuild,
+        equipment: payload,
       },
     };
   }

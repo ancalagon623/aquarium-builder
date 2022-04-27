@@ -1,14 +1,20 @@
 const initialState = {
   list: [],
-  equipmentByCategory: {},
+  currentCategory: '',
 };
 
 // eslint-disable-next-line default-param-last
 const categoriesReducer = (state = initialState, { type, payload }) => {
   if (type === 'CATEGORIES_RECEIVED') {
     return {
+      ...state,
       list: payload,
-      equipmentByCategory: {},
+    };
+  }
+  if (type === 'SET_CURRENT_CATEGORY') {
+    return {
+      ...state,
+      currentCategory: payload,
     };
   }
   return state;

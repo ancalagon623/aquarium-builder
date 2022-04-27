@@ -105,7 +105,32 @@ sql.newBuild = (buildInfo, user_id) => ({
 });
 
 sql.getAllCategories = () => `
-  SELECT DISTINCT type FROM equpiment;
+  SELECT DISTINCT type FROM equipment;
 `;
+
+sql.getEquipmentInCategory = (categoryName) => ({
+  text: `
+      SELECT * FROM equipment
+      WHERE type = $1;
+    `,
+  values: [categoryName],
+});
+
+sql.addEquipmentToBuild = (equipmentId, buildId) => ({
+  text: `
+      INSERT INTO bld_eq (eq_id, bld_id)
+      VALUES ($1, $2) RETURNING *;
+    `,
+  values: [equipmentId, buildId],
+});
+
+sql.getEquipmentInBuild = (buildId) => ({
+  text: `
+      SELECT * FROM 
+      bld_eq NATURAL JOIN equipment
+      WHERE bld_eq.bld_id = $1;
+    `,
+  values: [buildId],
+});
 
 module.exports = sql;

@@ -1,6 +1,29 @@
 import axios from 'axios';
 import qs from 'qs';
 
+export const hydrateUserInfo = (token) => async (dispatch) => {
+  const options = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  try {
+    const { data, status } = await axios.get(
+      `${process.env.REACT_APP_BACKEND}/api/me`,
+      options
+    );
+
+    if (status === 200) {
+      dispatch({ type: 'HYDRATE', payload: data });
+    }
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch({ type: 'LOGIN_FAILURE', payload: err.response });
+    } else {
+      return null;
+    }
+  }
+};
+
 export const login = (loginObj) => async (dispatch) => {
   const options = {
     method: 'POST',
@@ -39,6 +62,7 @@ export const createBuild = (buildInfo, navigate) => async (dispatch) => {
 
     if (status === 200) {
       dispatch({ type: 'BUILD_CREATED', payload: { data } });
+      localStorage.setItem('currentBuild', data.bld_id);
       navigate('/builds/edit');
     }
   } catch (err) {
@@ -73,3 +97,25 @@ export const getCategories = () => async (dispatch) => {
     }
   }
 };
+
+export const addEquipmentToBuild =
+  (equipmentId, buildId) => async (dispatch) => {
+    const options = {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    };
+    try {
+      const { data, status } = await axios.put(
+        `${process.env.REACT_APP_BACKEND}/api/me/aquariums/${buildId}`,
+        { action: 'add_equipment', eq_id: equipmentId },
+        options
+      );
+
+      if (status === 200) {
+        dispatch({ type: 'EQUIPMENT_ADDED', payload: data });
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        return null;
+      }
+    }
+  };

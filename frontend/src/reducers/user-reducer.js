@@ -41,6 +41,13 @@ const userReducer = (state = initialState, {type, payload}) => {
     localStorage.removeItem('token');
     return initialState;
   }
+  if (type === 'HYDRATE') {
+    return {
+      ...payload.user,
+      loggedIn: true,
+      loginError: {},
+    };
+  }
   return state;
 };
 
