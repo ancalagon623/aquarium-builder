@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 import { addEquipmentToBuild } from './reducers/actions';
 
 const AddEquipment = () => {
@@ -9,17 +10,12 @@ const AddEquipment = () => {
   const { currentBuild } = useSelector((state) => state.builds);
   const [equipment, setEquipment] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchEquipmentByCategory = async (category) => {
-    const options = {
-      headers: {
-        'category-name': currentCategory,
-      },
-    };
     try {
       const { data, status } = await axios.get(
-        `${process.env.REACT_APP_BACKEND}/api/categories/${currentCategory}`,
-        options
+        `${process.env.REACT_APP_BACKEND}/api/categories/${currentCategory}`
       );
 
       if (status === 200) {
@@ -44,14 +40,15 @@ const AddEquipment = () => {
             {equipment.map((e, i) => (
               <li key={i}>
                 <EquipmentItem>
-                  {e.eq_name}{' '}
+                  {e.eq_name} <Price>{e.price}</Price>
                   <ChooseEqButton
                     type="button"
                     onClick={() => {
                       dispatch(
                         addEquipmentToBuild(
                           e.eq_id,
-                          localStorage.getItem('currentBuild')
+                          localStorage.getItem('currentBuild') || 0,
+                          navigate
                         )
                       );
                     }}
@@ -71,6 +68,11 @@ const AddEquipment = () => {
 };
 
 export default AddEquipment;
+
+const Price = styled.span`
+  position: absolute;
+  right: 30%;
+`;
 
 const EquipmentItem = styled.h3`
   position: relative;

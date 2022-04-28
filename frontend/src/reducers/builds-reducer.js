@@ -1,26 +1,25 @@
-const initialState = () => {
-  const builds = [];
-  // get user's builds from the backend in the future
-  return {
-    builds,
-    currentBuild: {
-      user_id: 0,
-      bld_id: 0,
-      editing: false,
-      equipment: [],
-      name: '',
-      description: '',
+const initialState = {
+  builds: [],
+  currentBuild: {
+    user_id: 0,
+    bld_id: 0,
+    price: 0,
+    equipment: {
+      all: [],
+      normalized: {},
     },
-  };
+    name: '',
+    description: '',
+  },
 };
 
 // eslint-disable-next-line default-param-last
-const buildReducer = (state = initialState(), { type, payload }) => {
+const buildReducer = (state = initialState, { type, payload }) => {
   if (type === 'BUILD_CREATED') {
     return {
       ...state,
       currentBuild: {
-        ...state.currentBuild,
+        equipment: initialState.currentBuild.equipment,
         user_id: payload.data.user_id,
         bld_id: payload.data.bld_id,
         name: payload.data.bld_name,
@@ -33,7 +32,21 @@ const buildReducer = (state = initialState(), { type, payload }) => {
       ...state,
       currentBuild: {
         ...state.currentBuild,
-        equipment: payload,
+        price: payload.price,
+        equipment: payload.equipment,
+      },
+    };
+  }
+  if (type === 'BUILD_RECEIVED') {
+    return {
+      ...state,
+      currentBuild: {
+        price: payload.price,
+        equipment: payload.equipment,
+        user_id: payload.user_id,
+        bld_id: payload.bld_id,
+        name: payload.bld_name,
+        description: payload.bld_description,
       },
     };
   }

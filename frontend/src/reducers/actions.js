@@ -63,7 +63,7 @@ export const createBuild = (buildInfo, navigate) => async (dispatch) => {
     if (status === 200) {
       dispatch({ type: 'BUILD_CREATED', payload: { data } });
       localStorage.setItem('currentBuild', data.bld_id);
-      navigate('/builds/edit');
+      navigate(`/builds/edit`);
     }
   } catch (err) {
     if (err.response.status === 401) {
@@ -71,6 +71,31 @@ export const createBuild = (buildInfo, navigate) => async (dispatch) => {
         type: 'LOGIN_REQUIRED',
         payload: { error: err.response, navigate },
       });
+    }
+  }
+};
+
+export const getBuild = (buildId, navigate) => async (dispatch) => {
+  const token = localStorage.getItem('token');
+
+  const options = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  try {
+    const { data, status } = await axios.get(
+      `${process.env.REACT_APP_BACKEND}/api/me/aquariums/${buildId}`,
+      options
+    );
+
+    if (status === 200) {
+      dispatch({ type: 'BUILD_RECEIVED', payload: data });
+      return null;
+    }
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch({ type: 'LOGIN_REQUIRED', payload: navigate });
+      return null;
     }
   }
 };
@@ -99,7 +124,7 @@ export const getCategories = () => async (dispatch) => {
 };
 
 export const addEquipmentToBuild =
-  (equipmentId, buildId) => async (dispatch) => {
+  (equipmentId, buildId, navigate) => async (dispatch) => {
     const options = {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     };
@@ -112,6 +137,7 @@ export const addEquipmentToBuild =
 
       if (status === 200) {
         dispatch({ type: 'EQUIPMENT_ADDED', payload: data });
+        navigate(-1);
       }
     } catch (err) {
       if (err.response.status === 401) {

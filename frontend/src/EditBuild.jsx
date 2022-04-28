@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { getCategories } from './reducers/actions';
+import { getCategories, getBuild } from './reducers/actions';
 
 const EditBuild = () => {
   const build = useSelector((state) => state.builds.currentBuild);
@@ -12,8 +11,12 @@ const EditBuild = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const storedBuild = localStorage.getItem('currentBuild');
     if (!list.length) {
       dispatch(getCategories());
+    }
+    if (!build.bld_id && storedBuild) {
+      dispatch(getBuild(storedBuild, navigate));
     }
   }, []);
 
@@ -24,11 +27,14 @@ const EditBuild = () => {
 
   return (
     <div>
-      <div>{build.name} - Add Equipment</div>
-      <div>{build.decscription}</div>
+      <BuildName>
+        {build.name}
+        <TotalPrice>Total: ${build.price / 100 || 0}</TotalPrice>
+      </BuildName>
+      <p>{build.description}</p>
       <ul>
         {list.map((c, i) => (
-          <li key={i}>
+          <CategoryItem key={i}>
             <CategoryName>
               {c.type}{' '}
               <AddEqButton
@@ -40,7 +46,23 @@ const EditBuild = () => {
                 +
               </AddEqButton>
             </CategoryName>
-          </li>
+
+            <EquipmentDropdown>
+              <ul>
+                {build.equipment.normalized[c.type]
+                  ? build.equipment.normalized[c.type].map((eq, index) => (
+                      <EquipmentItem key={index}>
+                        <ImageWrapper>
+                          <Image src={eq.img_url} alt={eq.eq_name} />
+                        </ImageWrapper>
+                        {eq.eq_name} <Price>{eq.price}</Price>
+                      </EquipmentItem>
+                    ))
+                  : null}
+              </ul>
+            </EquipmentDropdown>
+            <hr />
+          </CategoryItem>
         ))}
       </ul>
     </div>
@@ -54,13 +76,47 @@ export default EditBuild;
 //   categories: PropTypes.object.isRequired,
 // };
 
-const CategoryItem = styled.li``;
+const BuildName = styled.h3`
+  position: relative;
+`;
+
+const TotalPrice = styled.span`
+  position: absolute;
+  right: 26%;
+`;
 
 const CategoryName = styled.h3`
   position: relative;
 `;
 
+const CategoryItem = styled.li``;
+
 const AddEqButton = styled.button`
   position: absolute;
   right: 20%;
+`;
+
+const EquipmentDropdown = styled.div``;
+
+const EquipmentItem = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const ImageWrapper = styled.span`
+  border: 2px solid rgba(0, 0, 0);
+  border-radius: 3px;
+  margin-bottom: 10px;
+`;
+
+const Image = styled.img`
+  width: 100px;
+  height: 100px;
+`;
+
+const Price = styled.span`
+  height: fit-content;
+  position: absolute;
+  right: 30%;
 `;

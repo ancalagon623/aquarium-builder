@@ -1,4 +1,5 @@
 const jwt = require('jwt-simple');
+const { pool, sql } = require('../db');
 
 function tokenGenerator(user) {
   return jwt.encode(

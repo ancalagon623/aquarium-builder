@@ -46,7 +46,7 @@ const scrapeCategories = async () => {
       const aTag = $(el).children('a');
 
       category.link = aTag.prop('href');
-      category.name = aTag.text();
+      category.name = aTag.text().trim();
 
       categories.push(category);
     });
