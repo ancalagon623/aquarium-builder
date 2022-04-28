@@ -1,13 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { createBuild } from './reducers/actions';
 
 const NewBuild = () => {
+  const currentBuild = useSelector((state) => state.builds.currentBuild);
+  const currentUser = useSelector((state) => state.user);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [validationError, setValidationError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('submit');
+    setValidationError('');
+    if (!name) {
+      setValidationError('A name for your setup is required');
+    }
+    if (name.length > 50) {
+      setValidationError('Name must be less than 50 characters');
+    }
+    if (name && name.length <= 50) {
+      dispatch(createBuild({ name, description }, navigate));
+    }
   };
 
   const handleInputChange = (e) => {
@@ -29,6 +46,7 @@ const NewBuild = () => {
           value={name}
           onChange={handleInputChange}
         />
+        {validationError ? <ValError>{validationError}</ValError> : null}
         <DescInput
           id="build-description"
           rows="12"
@@ -45,6 +63,11 @@ const NewBuild = () => {
 
 export default NewBuild;
 
+const ValError = styled.label`
+  color: #ac0909;
+  display: block;
+`;
+
 const Title = styled.h4`
   text-align: center;
   margin: 30px 0 40px 0;
@@ -60,7 +83,7 @@ const Container = styled.div`
 
 const NameInput = styled.input`
   display: block;
-  margin: 40px 0 50px 0;
+  margin: 40px 0 0 0;
 `;
 
 const BuildForm = styled.form`
@@ -72,6 +95,7 @@ const BuildForm = styled.form`
 
 const DescInput = styled.textarea`
   display: block;
+  margin-top: 50px;
 `;
 
 const SubmitButton = styled.button`

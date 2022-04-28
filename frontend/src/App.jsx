@@ -1,22 +1,41 @@
 import { Route, Routes } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Header from './Header';
 import UserPage from './UserPage';
 import Start from './Start';
 import NewBuild from './NewBuild';
+import EditBuild from './EditBuild';
+import AddEquipment from './AddEquipment';
+import { hydrateUserInfo } from './reducers/actions';
 
-const App = () => (
-  <MainDiv>
-    <Header />
-    <Content>
-      <Routes>
-        <Route path="/" element={<Start id="start" />} />
-        <Route path="create" element={<NewBuild id="new-build" />} />
-        <Route path="user" element={<UserPage id="user-page" />} />
-      </Routes>
-    </Content>
-  </MainDiv>
-);
+const App = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(hydrateUserInfo(token, navigate));
+    }
+  }, []);
+
+  return (
+    <MainDiv>
+      <Header />
+      <Content>
+        <Routes>
+          <Route path="/" element={<Start />} />
+          <Route path="user" element={<UserPage />} />
+          <Route path="builds/create" element={<NewBuild />} />
+          <Route path="builds/edit" element={<EditBuild />} />
+          <Route path="builds/edit/add-equipment" element={<AddEquipment />} />
+        </Routes>
+      </Content>
+    </MainDiv>
+  );
+};
 
 export default App;
 

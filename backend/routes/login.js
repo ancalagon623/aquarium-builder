@@ -1,4 +1,5 @@
 const jwt = require('jwt-simple');
+const { pool, sql } = require('../db');
 
 function tokenGenerator(user) {
   return jwt.encode(
@@ -11,7 +12,7 @@ function tokenGenerator(user) {
   );
 }
 
-const login = function (req, res, next) {
+exports.login = function (req, res, next) {
   // passport already authenticated this user.
   // We just need to give them a token
   res.send({
@@ -25,4 +26,17 @@ const login = function (req, res, next) {
   });
 };
 
-module.exports = login;
+exports.getUserInfo = async (req, res) => {
+  const id = req.user.user_id;
+
+  res.send({
+    user: {
+      user_id: id,
+      username: req.user.username,
+      name: req.user.name,
+      url: req.user.image_url,
+    },
+    builds: [],
+    auth_token: tokenGenerator(req.user),
+  });
+};

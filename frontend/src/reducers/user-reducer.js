@@ -9,8 +9,7 @@ const initialState = {
 // eslint-disable-next-line
 const userReducer = (state = initialState, {type, payload}) => {
   if (type === 'LOGIN_SUCCESS') {
-    localStorage.setItem('token', JSON.stringify(payload.auth_token));
-    debugger;
+    localStorage.setItem('token', payload.auth_token);
     return {
       name: payload.user.name,
       username: payload.user.username,
@@ -22,6 +21,7 @@ const userReducer = (state = initialState, {type, payload}) => {
   if (type === 'LOGIN_FAILURE') {
     return {
       ...state,
+      loggedIn: false,
       loginError: {
         message: payload.data,
         code: payload.status,
@@ -34,9 +34,20 @@ const userReducer = (state = initialState, {type, payload}) => {
       loginError: {},
     };
   }
+  if (type === 'LOGIN_REQUIRED') {
+    payload.navigate('/login');
+    return { ...state, loggedIn: false };
+  }
   if (type === 'LOGOUT') {
     localStorage.removeItem('token');
     return initialState;
+  }
+  if (type === 'HYDRATE') {
+    return {
+      ...payload.user,
+      loggedIn: true,
+      loginError: {},
+    };
   }
   return state;
 };
