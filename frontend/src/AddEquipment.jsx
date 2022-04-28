@@ -7,7 +7,6 @@ import { addEquipmentToBuild } from './reducers/actions';
 
 const AddEquipment = () => {
   const { currentCategory } = useSelector((state) => state.categories);
-  const { currentBuild } = useSelector((state) => state.builds);
   const [equipment, setEquipment] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,13 +32,17 @@ const AddEquipment = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       {currentCategory ? (
-        <div>
-          <ul>
+        <>
+          <h2>{currentCategory}</h2>
+          <List>
             {equipment.map((e, i) => (
               <li key={i}>
                 <EquipmentItem>
+                  <ImageWrapper>
+                    <Image src={e.img_url} alt={e.eq_name} />
+                  </ImageWrapper>
                   {e.eq_name} <Price>{e.price}</Price>
                   <ChooseEqButton
                     type="button"
@@ -58,27 +61,48 @@ const AddEquipment = () => {
                 </EquipmentItem>
               </li>
             ))}
-          </ul>
-        </div>
+          </List>
+        </>
       ) : (
         <h2>Select a category to get started</h2>
       )}
-    </div>
+    </Container>
   );
 };
 
 export default AddEquipment;
+
+const Container = styled.div`
+  text-align: center;
+`;
 
 const Price = styled.span`
   position: absolute;
   right: 30%;
 `;
 
+const List = styled.ul`
+  list-style: none;
+`;
+
 const EquipmentItem = styled.h3`
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const ChooseEqButton = styled.button`
   position: absolute;
   right: 20%;
+`;
+
+const ImageWrapper = styled.span`
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  margin-bottom: 10px;
+`;
+
+const Image = styled.img`
+  width: 100px;
+  height: 100px;
 `;

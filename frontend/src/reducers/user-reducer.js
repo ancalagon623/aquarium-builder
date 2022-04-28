@@ -21,6 +21,7 @@ const userReducer = (state = initialState, {type, payload}) => {
   if (type === 'LOGIN_FAILURE') {
     return {
       ...state,
+      loggedIn: false,
       loginError: {
         message: payload.data,
         code: payload.status,
@@ -35,7 +36,7 @@ const userReducer = (state = initialState, {type, payload}) => {
   }
   if (type === 'LOGIN_REQUIRED') {
     payload.navigate('/login');
-    return state;
+    return { ...state, loggedIn: false };
   }
   if (type === 'LOGOUT') {
     localStorage.removeItem('token');

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-export const hydrateUserInfo = (token) => async (dispatch) => {
+export const hydrateUserInfo = (token, navigate) => async (dispatch) => {
   const options = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -17,7 +17,7 @@ export const hydrateUserInfo = (token) => async (dispatch) => {
     }
   } catch (err) {
     if (err.response.status === 401) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: err.response });
+      dispatch({ type: 'LOGIN_REQUIRED', payload: { navigate } });
     } else {
       return null;
     }

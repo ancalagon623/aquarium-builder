@@ -48,7 +48,7 @@ const EditBuild = () => {
             </CategoryName>
 
             <EquipmentDropdown>
-              <ul>
+              <List>
                 {build.equipment.normalized[c.type]
                   ? build.equipment.normalized[c.type].map((eq, index) => (
                       <EquipmentItem key={index}>
@@ -59,7 +59,7 @@ const EditBuild = () => {
                       </EquipmentItem>
                     ))
                   : null}
-              </ul>
+              </List>
             </EquipmentDropdown>
             <hr />
           </CategoryItem>
@@ -78,6 +78,10 @@ export default EditBuild;
 
 const BuildName = styled.h3`
   position: relative;
+`;
+
+const List = styled.ul`
+  list-style: none;
 `;
 
 const TotalPrice = styled.span`
@@ -105,7 +109,7 @@ const EquipmentItem = styled.div`
 `;
 
 const ImageWrapper = styled.span`
-  border: 2px solid rgba(0, 0, 0);
+  border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   margin-bottom: 10px;
 `;

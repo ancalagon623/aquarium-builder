@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,11 +12,12 @@ import AddEquipment from './AddEquipment';
 import { hydrateUserInfo } from './reducers/actions';
 
 const App = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      dispatch(hydrateUserInfo(token));
+      dispatch(hydrateUserInfo(token, navigate));
     }
   }, []);
 
