@@ -23,6 +23,7 @@ const App = () => {
 
   return (
     <MainDiv>
+      <Background />
       <Header />
       <Content>
         <Routes>
@@ -39,12 +40,16 @@ const App = () => {
 
 export default App;
 
+const Background = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-image: url('https://i.ytimg.com/vi/MmP6Ia1GN8c/maxresdefault.jpg');
+  position: fixed;
+`;
+
 const MainDiv = styled.div`
   height: 100vh;
   width: 100%;
-  background-image: url('https://i.ytimg.com/vi/MmP6Ia1GN8c/maxresdefault.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
   display: grid;
   font-family: 'Raleway', sans-serif;
   background-size: cover;
@@ -52,6 +57,7 @@ const MainDiv = styled.div`
 
 const Content = styled.div`
   background-color: #f3f0ec;
+  z-index: 2;
   margin-top: 179px;
   margin-left: 10vw;
   margin-right: 10vw;
