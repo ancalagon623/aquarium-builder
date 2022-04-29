@@ -93,12 +93,10 @@ export const getBuild = (buildId, navigate, callback) => async (dispatch) => {
       if (callback) {
         callback();
       }
-      return null;
     }
   } catch (err) {
     if (err.response.status === 401) {
       dispatch({ type: 'LOGIN_REQUIRED', payload: navigate });
-      return null;
     }
   }
 };
@@ -139,8 +137,55 @@ export const addEquipmentToBuild =
       );
 
       if (status === 200) {
-        dispatch({ type: 'EQUIPMENT_ADDED', payload: data });
+        dispatch({ type: 'EQUIPMENT_UPDATED', payload: data });
         navigate(-1);
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        return null;
+      }
+    }
+  };
+
+export const updateBuildInfo =
+  (buildId, infoObj, callback) => async (dispatch) => {
+    const options = {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    };
+
+    try {
+      const { data, status } = await axios.put(
+        `${process.env.REACT_APP_BACKEND}/api/me/aquariums/${buildId}`,
+        { action: 'update_info', info: infoObj },
+        options
+      );
+
+      if (status === 200) {
+        if (parseInt(localStorage.getItem('currentBuild')) === data.bld_id) {
+          dispatch({ type: 'BUILD_INFO_UPDATED', payload: data });
+        }
+        if (callback) callback();
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        return null;
+      }
+    }
+  };
+
+export const deleteEquipmentFromBuild =
+  (equipmentId, buildId) => async (dispatch) => {
+    const options = {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    };
+    try {
+      const { data, status } = await axios.delete(
+        `${process.env.REACT_APP_BACKEND}/api/me/aquariums/${buildId}/equipment/${equipmentId}`,
+        options
+      );
+
+      if (status === 200) {
+        dispatch({ type: 'EQUIPMENT_UPDATED', payload: data });
       }
     } catch (err) {
       if (err.response.status === 401) {

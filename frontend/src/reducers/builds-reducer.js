@@ -27,7 +27,7 @@ const buildReducer = (state = initialState, { type, payload }) => {
       },
     };
   }
-  if (type === 'EQUIPMENT_ADDED') {
+  if (type === 'EQUIPMENT_UPDATED') {
     return {
       ...state,
       currentBuild: {
@@ -44,6 +44,17 @@ const buildReducer = (state = initialState, { type, payload }) => {
         price: payload.price,
         equipment: payload.equipment,
         user_id: payload.user_id,
+        bld_id: payload.bld_id,
+        name: payload.bld_name,
+        description: payload.bld_description,
+      },
+    };
+  }
+  if (type === 'BUILD_INFO_UPDATED') {
+    return {
+      ...state,
+      currentBuild: {
+        ...state.currentBuild,
         bld_id: payload.bld_id,
         name: payload.bld_name,
         description: payload.bld_description,

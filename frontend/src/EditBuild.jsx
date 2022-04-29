@@ -2,10 +2,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { FaPlus } from 'react-icons/fa';
-import { getCategories, getBuild } from './reducers/actions';
+import { FaPlus, FaTrash } from 'react-icons/fa';
+import {
+  getCategories,
+  getBuild,
+  updateBuildInfo,
+  deleteEquipmentFromBuild,
+} from './reducers/actions';
 import { fillerImg } from './UserPage';
 
+// eslint-disable-next-line react/prop-types
 const EditBuild = () => {
   const build = useSelector((state) => state.builds.currentBuild);
   const { list } = useSelector((state) => state.categories);
@@ -33,10 +39,27 @@ const EditBuild = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (e.target.id === 'name') {
-      console.log(e);
+      dispatch(
+        updateBuildInfo(build.bld_id, { name }, () => {
+          setEditMode((state) => state.filter((mode) => !mode === 'name'));
+          setName('');
+        })
+      );
     } else {
-      console.log(e);
+      setDescription('');
+      dispatch(
+        updateBuildInfo(build.bld_id, { description }, () => {
+          setEditMode((state) =>
+            state.filter((mode) => !mode === 'description')
+          );
+          setDescription('');
+        })
+      );
     }
+  };
+
+  const removeHandler = (equipmentId, buildId) => {
+    dispatch(deleteEquipmentFromBuild(equipmentId, buildId));
   };
 
   return (
@@ -46,14 +69,17 @@ const EditBuild = () => {
           <ProfileImage src={build.img_url || fillerImg} alt={build.name} />
         </ProfileImageWrapper>
         <BuildTitle>
-          {build.name}
+          <p>Build Name</p>
           {!editMode.includes('name') ? (
-            <button
-              type="button"
-              onClick={() => setEditMode((state) => [...state, 'name'])}
-            >
-              Change
-            </button>
+            <>
+              <span>{build.name}</span>
+              <button
+                type="button"
+                onClick={() => setEditMode((state) => [...state, 'name'])}
+              >
+                Change
+              </button>
+            </>
           ) : (
             <form id="name" onSubmit={handleSubmit}>
               <label>
@@ -72,19 +98,24 @@ const EditBuild = () => {
           )}
         </BuildTitle>
         <Description>
-          {build.description}
+          <p>Description</p>
           {!editMode.includes('description') ? (
-            <button
-              type="button"
-              onClick={() => setEditMode((state) => [...state, 'description'])}
-            >
-              Change
-            </button>
+            <>
+              <span>{build.description}</span>
+              <button
+                type="button"
+                onClick={() =>
+                  setEditMode((state) => [...state, 'description'])
+                }
+              >
+                Change
+              </button>
+            </>
           ) : (
             <form id="description" onSubmit={handleSubmit}>
               <label>
                 New Description{' '}
-                <input
+                <textarea
                   type="text"
                   value={description}
                   onChange={(e) => {
@@ -125,6 +156,13 @@ const EditBuild = () => {
                         </ImageWrapper>
                         <EquipmentTitle>{eq.eq_name}</EquipmentTitle>{' '}
                         <Price>{eq.price}</Price>
+                        <AddEqButton
+                          onClick={() => {
+                            removeHandler(eq.eq_id, build.bld_id);
+                          }}
+                        >
+                          <StyledDelete />
+                        </AddEqButton>
                       </EquipmentItem>
                     ))
                   : null}
@@ -139,10 +177,9 @@ const EditBuild = () => {
 
 export default EditBuild;
 
-// EditBuild.propTypes = {
-//   build: PropTypes.object.isRequired,
-//   categories: PropTypes.object.isRequired,
-// };
+const StyledDelete = styled(FaTrash)`
+  color: #a5051b;
+`;
 
 const BuildProfileGrid = styled.h3`
   margin: 1.5rem 5%;
@@ -160,9 +197,13 @@ const ProfileImageWrapper = styled.div`
 
 const ProfileImage = styled.img``;
 
-const BuildTitle = styled.div``;
+const BuildTitle = styled.div`
+  font-size: 1rem;
+`;
 
-const Description = styled.div``;
+const Description = styled.div`
+  font-size: 1rem;
+`;
 
 const List = styled.ul`
   list-style: none;
@@ -197,7 +238,7 @@ const AddEqButton = styled.button`
   width: max-content;
   cursor: pointer;
   text-align: center;
-  padding: 1em 2em;
+  padding: 5px;
   &:active {
     transform: scale(0.9);
   }
@@ -207,7 +248,7 @@ const EquipmentDropdown = styled.div``;
 
 const EquipmentItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 4fr;
+  grid-template-columns: 10% 1fr 1fr 10%;
   text-align: center;
   align-items: center;
 `;
@@ -219,8 +260,8 @@ const ImageWrapper = styled.span`
 `;
 
 const Image = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
 `;
 
 const Price = styled.span`

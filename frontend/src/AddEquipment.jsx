@@ -11,10 +11,10 @@ const AddEquipment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const fetchEquipmentByCategory = async (category) => {
+  const fetchEquipmentByCategory = async () => {
     try {
       const { data, status } = await axios.get(
-        `${process.env.REACT_APP_BACKEND}/api/categories/${currentCategory}`
+        `${process.env.REACT_APP_BACKEND}/api/categories/${currentCategory}/equipment`
       );
 
       if (status === 200) {
@@ -27,7 +27,7 @@ const AddEquipment = () => {
 
   useEffect(() => {
     if (currentCategory) {
-      fetchEquipmentByCategory(currentCategory);
+      fetchEquipmentByCategory();
     }
   }, []);
 
