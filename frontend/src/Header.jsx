@@ -70,7 +70,7 @@ const HeaderContainer = styled.div`
   width: 100%;
   margin-right: 50px;
   position: fixed;
-  height: 95px;
+  height: 80px;
   z-index: 900;
   background-color: var(--theme);
 `;
@@ -79,12 +79,14 @@ const TopHeader = styled.div`
   display: grid;
   grid-template-columns: 5fr 1fr;
   text-align: left;
+  align-content: center;
 `;
 
 const Title = styled.h1`
   text-align: left;
   display: inline-block;
-  margin-left: 1.7rem;
+  height: 80px;
+  margin: 10px 0 0 1.7rem;
 `;
 
 const UserControls = styled.div`
@@ -92,6 +94,7 @@ const UserControls = styled.div`
   justify-content: center;
   align-items: center;
   color: wheat;
+  height: 80px;
 `;
 
 const Navigator = styled.nav`
@@ -99,7 +102,7 @@ const Navigator = styled.nav`
   border-style: solid;
   border-radius: 3px;
   border-color: wheat;
-  top: 95px;
+  top: 80px;
   width: 100%;
   background-color: var(--theme);
 `;

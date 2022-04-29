@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import styled from 'styled-components';
+import { getBuild } from './reducers/actions';
+
+export const fillerImg =
+  'https://image.shutterstock.com/image-vector/aquarium-fish-bubbles-linear-icon-260nw-1588448356.jpg';
 
 const UserPage = () => {
   const [builds, setBuilds] = useState([]);
   const { username, name } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const fillerImg =
-    'https://image.shutterstock.com/image-vector/aquarium-fish-bubbles-linear-icon-260nw-1588448356.jpg';
 
   const fetchBuilds = async () => {
     const token = localStorage.getItem('token');
@@ -34,6 +35,11 @@ const UserPage = () => {
         dispatch({ type: 'LOGIN_REQUIRED', payload: { navigate } });
       }
     }
+  };
+
+  const editBuild = (id) => {
+    localStorage.setItem('currentBuild', id);
+    dispatch(getBuild(id, navigate, () => navigate('/builds/edit')));
   };
 
   useEffect(() => {
@@ -67,6 +73,9 @@ const UserPage = () => {
                 currency: 'USD',
               })}
             </Price>
+            <ButtonWrapper>
+              <EditButton onClick={() => editBuild(b.bld_id)}>Edit</EditButton>
+            </ButtonWrapper>
           </BuildItem>
         ))}
       </BuildList>
@@ -112,7 +121,7 @@ const BuildList = styled.ul`
 
 const BuildItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 4fr;
+  grid-template-columns: 1fr 4fr 4fr 1fr;
   border-bottom: 0.5px solid #05177a7e;
   margin-bottom: 10px;
 `;
@@ -133,4 +142,55 @@ const Price = styled.span`
   height: fit-content;
   text-align: right;
   margin: auto;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PurchaseButton = styled.button`
+  all: unset;
+  background-color: #1764c9ce;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 250ms ease-in-out, transform 150ms ease;
+  padding: 1em 2em;
+  &:hover {
+    background-color: #2e02f189;
+  }
+  &:focus {
+    background-color: #2e02f189;
+    outline: 2px solid var(--theme);
+    outline-offset: 2px;
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const EditButton = styled.button`
+  all: unset;
+  background-color: #1764c9ce;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 250ms ease-in-out, transform 150ms ease;
+  padding: 1em 2em;
+  &:hover {
+    background-color: #2e02f189;
+  }
+  &:focus {
+    background-color: #2e02f189;
+    outline: 2px solid var(--theme);
+    outline-offset: 2px;
+  }
+  &:active {
+    transform: scale(0.9);
+  }
 `;

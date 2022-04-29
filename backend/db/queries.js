@@ -112,6 +112,14 @@ sql.getBuildById = (id) => ({
   values: [id],
 });
 
+sql.getBuildsByUserId = (id) => ({
+  text: `
+    SELECT * FROM builds
+    WHERE user_id = $1;
+    `,
+  values: [id],
+});
+
 sql.updatePrice = (buildId, price) => ({
   text: `
       UPDATE builds
@@ -120,6 +128,37 @@ sql.updatePrice = (buildId, price) => ({
     `,
   values: [buildId, price],
 });
+
+sql.updateNameAndDescription = (buildId, info) => {
+  if (info.name && info.description) {
+    return {
+      text: `
+      UPDATE builds
+      SET bld_name = $2, bld_description = $3
+      WHERE bld_id = $1 RETURNING *;
+    `,
+      values: [buildId, info.name, info.description],
+    };
+  }
+  if (info.name) {
+    return {
+      text: `
+      UPDATE builds
+      SET bld_name = $2
+      WHERE bld_id = $1 RETURNING *;
+    `,
+      values: [buildId, info.name],
+    };
+  }
+  return {
+    text: `
+      UPDATE builds
+      SET bld_description = $2
+      WHERE bld_id = $1 RETURNING *;
+    `,
+    values: [buildId, info.description],
+  };
+};
 
 sql.getAllCategories = () => `
   SELECT DISTINCT type FROM equipment;
@@ -137,6 +176,14 @@ sql.addEquipmentToBuild = (equipmentId, buildId) => ({
   text: `
       INSERT INTO bld_eq (eq_id, bld_id)
       VALUES ($1, $2) RETURNING *;
+    `,
+  values: [equipmentId, buildId],
+});
+
+sql.deleteEquipmentFromBuild = (equipmentId, buildId) => ({
+  text: `
+      DELETE FROM bld_eq
+      WHERE eq_id = $1 AND bld_id = $2;
     `,
   values: [equipmentId, buildId],
 });

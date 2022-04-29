@@ -79,15 +79,39 @@ exports.updateBuild = async (req, res) => {
     } else {
       res.send(500, 'Internal Server Error');
     }
-  } else {
-    // const { rows } = await pool.query(
-    //   sql.updateBuild(req.body.eq_id, aquariumId)
-    // );
-    // if (rows) {
-    //   res.send(rows[0]);
-    // } else {
-    //   res.send(500, 'Internal Server Error');
-    // }
-    res.send('under construction');
+  }
+
+  if (req.body.action === 'update_info') {
+    const updatedBuild = await pool.query(
+      sql.updateNameAndDescription(aquariumId, req.body.info)
+    );
+    res.send(updatedBuild.rows[0]);
+  }
+};
+
+exports.deleteEquipmentFromBuild = async (req, res) => {
+  const { equipmentId, aquariumId } = req.params;
+
+  try {
+    await pool.query(sql.deleteEquipmentFromBuild(equipmentId, aquariumId));
+    const equipment = await pool.query(sql.getEquipmentInBuild(aquariumId));
+    const savedBuild = await pool.query(
+      sql.updatePrice(aquariumId, calcPrice(equipment.rows))
+    );
+    res.send({
+      ...savedBuild.rows[0],
+      equipment: {
+        all: equipment.rows,
+        normalized: equipment.rows.reduce((acc, curr) => {
+          if (!acc[curr.type]) {
+            acc[curr.type] = [];
+          }
+          acc[curr.type].push(curr);
+          return acc;
+        }, {}),
+      },
+    });
+  } catch (err) {
+    res.send(500, err);
   }
 };
