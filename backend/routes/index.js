@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { login, getUserInfo } = require('./login');
+const { login, getUserInfo, getUserBuilds } = require('./login');
 const signup = require('./signup');
 const { createBuild, updateBuild, getBuild } = require('./builds');
 const { getAllCategories, getEquipmentInCategory } = require('./categories');
@@ -10,7 +10,10 @@ router.route('/signup').post(signup);
 router.route('/categories').get(getAllCategories);
 router.route('/categories/:categoryName').get(getEquipmentInCategory);
 router.route('/me').get(requireAuth, getUserInfo);
-router.route('/me/aquariums').post(requireAuth, createBuild);
+router
+  .route('/me/aquariums')
+  .post(requireAuth, createBuild)
+  .get(requireAuth, getUserBuilds);
 router
   .route('/me/aquariums/:aquariumId')
   .get(requireAuth, getBuild)

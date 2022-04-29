@@ -75,7 +75,7 @@ export const createBuild = (buildInfo, navigate) => async (dispatch) => {
   }
 };
 
-export const getBuild = (buildId, navigate) => async (dispatch) => {
+export const getBuild = (buildId, navigate, callback) => async (dispatch) => {
   const token = localStorage.getItem('token');
 
   const options = {
@@ -90,6 +90,9 @@ export const getBuild = (buildId, navigate) => async (dispatch) => {
 
     if (status === 200) {
       dispatch({ type: 'BUILD_RECEIVED', payload: data });
+      if (callback) {
+        callback();
+      }
       return null;
     }
   } catch (err) {

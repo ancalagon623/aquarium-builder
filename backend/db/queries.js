@@ -112,6 +112,14 @@ sql.getBuildById = (id) => ({
   values: [id],
 });
 
+sql.getBuildsByUserId = (id) => ({
+  text: `
+    SELECT * FROM builds
+    WHERE user_id = $1;
+    `,
+  values: [id],
+});
+
 sql.updatePrice = (buildId, price) => ({
   text: `
       UPDATE builds

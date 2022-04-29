@@ -50,7 +50,7 @@ const AddEquipment = () => {
                       dispatch(
                         addEquipmentToBuild(
                           e.eq_id,
-                          localStorage.getItem('currentBuild') || 0,
+                          localStorage.getItem('currentBuild'),
                           navigate
                         )
                       );

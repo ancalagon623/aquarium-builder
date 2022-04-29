@@ -27,11 +27,9 @@ exports.login = function (req, res, next) {
 };
 
 exports.getUserInfo = async (req, res) => {
-  const id = req.user.user_id;
-
   res.send({
     user: {
-      user_id: id,
+      user_id: req.user.user_id,
       username: req.user.username,
       name: req.user.name,
       url: req.user.image_url,
@@ -39,4 +37,12 @@ exports.getUserInfo = async (req, res) => {
     builds: [],
     auth_token: tokenGenerator(req.user),
   });
+};
+
+exports.getUserBuilds = async (req, res) => {
+  const id = req.user.user_id;
+
+  const result = await pool.query(sql.getBuildsByUserId(id));
+
+  res.send(result.rows);
 };
