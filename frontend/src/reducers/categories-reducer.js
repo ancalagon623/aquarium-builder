@@ -17,6 +17,9 @@ const categoriesReducer = (state = initialState, { type, payload }) => {
       currentCategory: payload,
     };
   }
+  if (type === 'RESET') {
+    return initialState;
+  }
   return state;
 };
 

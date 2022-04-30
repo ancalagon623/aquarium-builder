@@ -52,6 +52,18 @@ exports.createBuild = async (req, res) => {
   }
 };
 
+exports.deleteBuild = async (req, res) => {
+  const { aquariumId } = req.params;
+  // eslint-disable-next-line camelcase
+  try {
+    const deleted = await pool.query(sql.deleteBuild(aquariumId));
+
+    res.send(deleted.rows[0]);
+  } catch (err) {
+    res.send(500, 'Internal Database Error');
+  }
+};
+
 exports.updateBuild = async (req, res) => {
   const { aquariumId } = req.params;
   if (req.body.action === 'add_equipment') {

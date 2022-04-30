@@ -48,7 +48,7 @@ sql.createEquipmentTable = () => `
 
 sql.createJunctionTable = () => `
   CREATE TABLE bld_eq (
-    bld_id INT REFERENCES builds (bld_id),
+    bld_id INT REFERENCES builds (bld_id) ON DELETE CASCADE,
     eq_id INT REFERENCES equipment (eq_id)
   )
 `;
@@ -104,10 +104,10 @@ sql.newBuild = (buildInfo, user_id) => ({
   values: [buildInfo.name, buildInfo.description || null, user_id],
 });
 
-sql.getBuildById = (id) => ({
+sql.deleteBuild = (id) => ({
   text: `
-      SELECT * FROM builds
-      WHERE bld_id = $1;
+      DELETE FROM builds
+      WHERE bld_id = $1 RETURNING *;
     `,
   values: [id],
 });
@@ -150,14 +150,16 @@ sql.updateNameAndDescription = (buildId, info) => {
       values: [buildId, info.name],
     };
   }
-  return {
-    text: `
-      UPDATE builds
-      SET bld_description = $2
-      WHERE bld_id = $1 RETURNING *;
-    `,
-    values: [buildId, info.description],
-  };
+  if (info.description) {
+    return {
+      text: `
+        UPDATE builds
+        SET bld_description = $2
+        WHERE bld_id = $1 RETURNING *;
+      `,
+      values: [buildId, info.description],
+    };
+  }
 };
 
 sql.getAllCategories = () => `
@@ -183,8 +185,12 @@ sql.addEquipmentToBuild = (equipmentId, buildId) => ({
 sql.deleteEquipmentFromBuild = (equipmentId, buildId) => ({
   text: `
       DELETE FROM bld_eq
-      WHERE eq_id = $1 AND bld_id = $2;
-    `,
+      WHERE ctid IN (
+        SELECT ctid
+        FROM bld_eq
+        WHERE eq_id = $1 AND bld_id = $2
+        LIMIT 1
+    );`,
   values: [equipmentId, buildId],
 });
 
