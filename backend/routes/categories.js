@@ -3,7 +3,9 @@ const { pool, sql } = require('../db');
 exports.getEquipmentInCategory = async (req, res) => {
   const { categoryName } = req.params;
 
-  const { rows } = await pool.query(sql.getEquipmentInCategory(categoryName));
+  const { rows } = await pool.query(
+    sql.getEquipmentInCategory(categoryName, req.query)
+  );
 
   res.send(rows);
 };

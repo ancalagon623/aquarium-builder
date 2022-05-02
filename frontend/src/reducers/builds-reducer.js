@@ -61,6 +61,12 @@ const buildReducer = (state = initialState, { type, payload }) => {
       },
     };
   }
+  if (type === 'RESET') {
+    return {
+      ...state,
+      currentBuild: initialState.currentBuild,
+    };
+  }
   return state;
 };
 

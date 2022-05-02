@@ -29,6 +29,9 @@ const EditBuild = () => {
     if (!build.bld_id && storedBuild) {
       dispatch(getBuild(storedBuild, navigate));
     }
+    if (!storedBuild) {
+      navigate('/builds/create');
+    }
   }, []);
 
   const goToEquipmentInCategory = (categoryName) => {
@@ -39,6 +42,8 @@ const EditBuild = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (e.target.id === 'name') {
+      if (!name)
+        return setEditMode((state) => state.filter((mode) => !mode === 'name'));
       dispatch(
         updateBuildInfo(build.bld_id, { name }, () => {
           setEditMode((state) => state.filter((mode) => !mode === 'name'));
@@ -46,7 +51,8 @@ const EditBuild = () => {
         })
       );
     } else {
-      setDescription('');
+      if (!description)
+        return setEditMode((state) => state.filter((mode) => !mode === 'name'));
       dispatch(
         updateBuildInfo(build.bld_id, { description }, () => {
           setEditMode((state) =>
@@ -155,7 +161,12 @@ const EditBuild = () => {
                           <Image src={eq.img_url} alt={eq.eq_name} />
                         </ImageWrapper>
                         <EquipmentTitle>{eq.eq_name}</EquipmentTitle>{' '}
-                        <Price>{eq.price}</Price>
+                        <Price>
+                          {(eq.price / 100).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                          })}
+                        </Price>
                         <AddEqButton
                           onClick={() => {
                             removeHandler(eq.eq_id, build.bld_id);

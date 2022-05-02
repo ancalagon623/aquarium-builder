@@ -40,7 +40,7 @@ sql.createEquipmentTable = () => `
     seller VARCHAR,
     seller_site VARCHAR,
     type VARCHAR,
-    price VARCHAR,
+    price int,
     img_url VARCHAR,
     link VARCHAR
   );
@@ -48,7 +48,7 @@ sql.createEquipmentTable = () => `
 
 sql.createJunctionTable = () => `
   CREATE TABLE bld_eq (
-    bld_id INT REFERENCES builds (bld_id),
+    bld_id INT REFERENCES builds (bld_id) ON DELETE CASCADE,
     eq_id INT REFERENCES equipment (eq_id)
   )
 `;
@@ -106,8 +106,16 @@ sql.newBuild = (buildInfo, user_id) => ({
 
 sql.getBuildById = (id) => ({
   text: `
-      SELECT * FROM builds
-      WHERE bld_id = $1;
+        SELECT * FROM builds
+        WHERE bld_id = $1;
+      `,
+  values: [id],
+});
+
+sql.deleteBuild = (id) => ({
+  text: `
+      DELETE FROM builds
+      WHERE bld_id = $1 RETURNING *;
     `,
   values: [id],
 });
@@ -150,27 +158,43 @@ sql.updateNameAndDescription = (buildId, info) => {
       values: [buildId, info.name],
     };
   }
-  return {
-    text: `
-      UPDATE builds
-      SET bld_description = $2
-      WHERE bld_id = $1 RETURNING *;
-    `,
-    values: [buildId, info.description],
-  };
+  if (info.description) {
+    return {
+      text: `
+        UPDATE builds
+        SET bld_description = $2
+        WHERE bld_id = $1 RETURNING *;
+      `,
+      values: [buildId, info.description],
+    };
+  }
 };
 
 sql.getAllCategories = () => `
   SELECT DISTINCT type FROM equipment;
 `;
 
-sql.getEquipmentInCategory = (categoryName) => ({
-  text: `
+sql.getEquipmentInCategory = (categoryName, query) => {
+  console.log(query);
+
+  return {
+    text: `
       SELECT * FROM equipment
-      WHERE type = $1;
+      WHERE type = $1 ${
+        query['lower-limit']
+          ? `AND price >= ${parseFloat(query['lower-limit']) * 100}`
+          : ''
+      } ${
+      query['upper-limit']
+        ? `AND price <= ${parseFloat(query['upper-limit']) * 100}`
+        : ''
+    } ${query.highest ? 'ORDER BY price DESC' : ''} ${
+      query.lowest ? 'ORDER BY price' : ''
+    };
     `,
-  values: [categoryName],
-});
+    values: [categoryName],
+  };
+};
 
 sql.addEquipmentToBuild = (equipmentId, buildId) => ({
   text: `
@@ -183,8 +207,12 @@ sql.addEquipmentToBuild = (equipmentId, buildId) => ({
 sql.deleteEquipmentFromBuild = (equipmentId, buildId) => ({
   text: `
       DELETE FROM bld_eq
-      WHERE eq_id = $1 AND bld_id = $2;
-    `,
+      WHERE ctid IN (
+        SELECT ctid
+        FROM bld_eq
+        WHERE eq_id = $1 AND bld_id = $2
+        LIMIT 1
+    );`,
   values: [equipmentId, buildId],
 });
 

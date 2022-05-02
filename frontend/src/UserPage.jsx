@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import styled from 'styled-components';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 import { getBuild } from './reducers/actions';
 
 export const fillerImg =
@@ -10,6 +11,7 @@ export const fillerImg =
 
 const UserPage = () => {
   const [builds, setBuilds] = useState([]);
+  const [buildToDelete, setBuildToDelete] = useState(0);
   const { username, name } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,19 +39,75 @@ const UserPage = () => {
     }
   };
 
-  const editBuild = (id) => {
+  const deleteBuild = async (id) => {
+    const token = localStorage.getItem('token');
+
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const { data, status } = await axios.delete(
+        `${process.env.REACT_APP_BACKEND}/api/me/aquariums/${id}`,
+        options
+      );
+
+      if (status === 200) {
+        setBuilds((state) => state.filter((b) => b.bld_id !== data.bld_id));
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        dispatch({ type: 'LOGIN_REQUIRED', payload: { navigate } });
+      }
+    }
+  };
+
+  const editBuildHandler = (id) => {
     localStorage.setItem('currentBuild', id);
     dispatch(getBuild(id, navigate, () => navigate('/builds/edit')));
+  };
+
+  const deleteBuildHandler = (id) => {
+    setBuildToDelete(id);
+  };
+
+  const confirmDelete = (id) => {
+    if (id === parseInt(localStorage.getItem('currentBuild'))) {
+      localStorage.removeItem('currentBuild');
+      dispatch({ type: 'RESET' });
+    }
+    deleteBuild(id);
   };
 
   useEffect(() => {
     fetchBuilds();
   }, []);
 
+  useEffect(() => {
+    const closePopUp = (e) => {
+      console.log(e);
+      if (
+        !e.target.className.split(' ').includes('delete-button') &&
+        !e.target.className.split(' ').includes('warning-popup')
+      ) {
+        setBuildToDelete(0);
+      }
+    };
+    document.body.addEventListener('click', closePopUp);
+    return () => {
+      document.body.removeEventListener('click', closePopUp);
+    };
+  }, []);
+
   return (
     <UserContainer>
       <HeaderBackground>
-        <Header>
+        <Header
+          onFocus={(e) => {
+            console.log('focus');
+            // nothing happens when clicking on this div.
+          }}
+        >
           <h2>Account Details</h2>
           <h4>username: {username}</h4>
           <h4>name: {name}</h4>
@@ -61,7 +119,7 @@ const UserPage = () => {
           <h4>Setup Name</h4>
           <h4>Total Price</h4>
         </ColumnHeader>
-        {builds.map((b, i) => (
+        {builds.map((b) => (
           <BuildItem key={b.bld_id}>
             <ImageWrapper>
               <Image src={b.img_url || fillerImg} alt={b.bld_name} />
@@ -74,7 +132,38 @@ const UserPage = () => {
               })}
             </Price>
             <ButtonWrapper>
-              <EditButton onClick={() => editBuild(b.bld_id)}>Edit</EditButton>
+              <EditButton onClick={() => editBuildHandler(b.bld_id)}>
+                <FaEdit />
+              </EditButton>
+            </ButtonWrapper>
+            <ButtonWrapper
+              onFocus={(e) => {
+                console.log('focus');
+                // nothing happens when clicking on this div either.
+              }}
+            >
+              <DeleteButton
+                className="delete-button"
+                onClick={() => deleteBuildHandler(b.bld_id)}
+              >
+                {/* but selecting this button fires the event */}
+                <FaTrash />
+              </DeleteButton>
+              {b.bld_id === buildToDelete ? (
+                <DeleteChecker
+                  className="warning-popup"
+                  onFocus={(e) => {
+                    console.log('focus');
+                    // nothing happens when clicking on this div.
+                  }}
+                >
+                  <span>Are you sure?</span>
+                  <ConfirmDelete onClick={() => confirmDelete(b.bld_id)}>
+                    {/* But if I click here the focus event also fires */}
+                    Delete
+                  </ConfirmDelete>
+                </DeleteChecker>
+              ) : null}
             </ButtonWrapper>
           </BuildItem>
         ))}
@@ -121,7 +210,7 @@ const BuildList = styled.ul`
 
 const BuildItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 4fr 1fr;
+  grid-template-columns: 1fr 4fr 4fr 1fr 1fr;
   border-bottom: 0.5px solid #05177a7e;
   margin-bottom: 10px;
 `;
@@ -148,6 +237,8 @@ const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 `;
 
 const PurchaseButton = styled.button`
@@ -160,11 +251,64 @@ const PurchaseButton = styled.button`
   transition: background-color 250ms ease-in-out, transform 150ms ease;
   padding: 1em 2em;
   &:hover {
-    background-color: #2e02f189;
+    background-color: #2e02f1c0;
   }
   &:focus {
-    background-color: #2e02f189;
+    background-color: #2e02f1c0;
     outline: 2px solid var(--theme);
+    outline-offset: 2px;
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const DeleteChecker = styled.div`
+  position: absolute;
+  top: -2.2rem;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 5px 5px 2px rgba(0, 0, 0, 0.144);
+  font-size: 13px;
+  background-color: aliceblue;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+`;
+
+const ConfirmDelete = styled.button`
+  all: unset;
+  background-color: #f0250a;
+  margin-top: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 250ms ease-in-out, transform 150ms ease;
+  &:hover {
+    background-color: #f102ddec;
+  }
+  &:focus {
+    background-color: #f102ddec;
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const DeleteButton = styled.button`
+  all: unset;
+  background-color: #a5051b;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 250ms ease-in-out, transform 150ms ease;
+  padding: 1em 2em;
+  &:hover {
+    background-color: #f10252ed;
+  }
+  &:focus {
+    background-color: #f10252ed;
+    outline: 2px solid #640323eb;
     outline-offset: 2px;
   }
   &:active {
@@ -183,10 +327,10 @@ const EditButton = styled.button`
   transition: background-color 250ms ease-in-out, transform 150ms ease;
   padding: 1em 2em;
   &:hover {
-    background-color: #2e02f189;
+    background-color: #09a8f1d2;
   }
   &:focus {
-    background-color: #2e02f189;
+    background-color: #09a8f1d2;
     outline: 2px solid var(--theme);
     outline-offset: 2px;
   }

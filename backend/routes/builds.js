@@ -3,7 +3,7 @@ const { pool, sql } = require('../db');
 const calcPrice = (equipment) =>
   equipment.reduce((acc, e) => {
     // eslint-disable-next-line no-param-reassign
-    acc += Math.trunc(parseFloat(e.price.slice(1)) * 100);
+    acc += e.price;
     return acc;
   }, 0);
 
@@ -47,6 +47,18 @@ exports.createBuild = async (req, res) => {
     } else {
       res.send(500, 'Internal Database Error');
     }
+  } catch (err) {
+    res.send(500, 'Internal Database Error');
+  }
+};
+
+exports.deleteBuild = async (req, res) => {
+  const { aquariumId } = req.params;
+  // eslint-disable-next-line camelcase
+  try {
+    const deleted = await pool.query(sql.deleteBuild(aquariumId));
+
+    res.send(deleted.rows[0]);
   } catch (err) {
     res.send(500, 'Internal Database Error');
   }

@@ -6,6 +6,7 @@ const {
   updateBuild,
   getBuild,
   deleteEquipmentFromBuild,
+  deleteBuild,
 } = require('./builds');
 const { getAllCategories, getEquipmentInCategory } = require('./categories');
 const { requireLogin, requireAuth } = require('../services/passport');
@@ -22,7 +23,8 @@ router
 router
   .route('/me/aquariums/:aquariumId')
   .get(requireAuth, getBuild)
-  .put(requireAuth, updateBuild);
+  .put(requireAuth, updateBuild)
+  .delete(requireAuth, deleteBuild);
 router
   .route('/me/aquariums/:aquariumId/equipment/:equipmentId')
   .delete(requireAuth, deleteEquipmentFromBuild);
