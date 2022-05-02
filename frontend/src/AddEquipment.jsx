@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { addEquipmentToBuild } from './reducers/actions';
+import Filters from './Filters';
 
 const AddEquipment = () => {
   const { currentCategory } = useSelector((state) => state.categories);
@@ -34,8 +35,17 @@ const AddEquipment = () => {
   return (
     <Container>
       {currentCategory ? (
-        <>
-          <h2>{currentCategory}</h2>
+        <EquipmentContent>
+          <div>
+            <h2>{currentCategory}</h2>
+          </div>
+          <EquipmentItem>
+            <div />
+            <h3>Title</h3>
+            <h3>Price</h3>
+            <div />
+          </EquipmentItem>
+          <Filters setEquipment={setEquipment} />
           <List>
             {equipment.map((e, i) => (
               <li key={i}>
@@ -43,7 +53,13 @@ const AddEquipment = () => {
                   <ImageWrapper>
                     <Image src={e.img_url} alt={e.eq_name} />
                   </ImageWrapper>
-                  {e.eq_name} <Price>{e.price}</Price>
+                  {e.eq_name}{' '}
+                  <Price>
+                    {(e.price / 100).toLocaleString('en-US', {
+                      currency: 'USD',
+                      style: 'currency',
+                    })}
+                  </Price>
                   <ChooseEqButton
                     type="button"
                     onClick={() => {
@@ -62,7 +78,7 @@ const AddEquipment = () => {
               </li>
             ))}
           </List>
-        </>
+        </EquipmentContent>
       ) : (
         <h2>Select a category to get started</h2>
       )}
@@ -76,25 +92,27 @@ const Container = styled.div`
   text-align: center;
 `;
 
-const Price = styled.span`
-  position: absolute;
-  right: 30%;
+const EquipmentContent = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 19fr;
 `;
+
+const Price = styled.span``;
 
 const List = styled.ul`
   list-style: none;
+  margin-top: 0;
+  padding-right: 3em;
 `;
 
-const EquipmentItem = styled.h3`
-  position: relative;
-  display: flex;
+const EquipmentItem = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 1fr;
   align-items: center;
 `;
 
-const ChooseEqButton = styled.button`
-  position: absolute;
-  right: 20%;
-`;
+const ChooseEqButton = styled.button``;
 
 const ImageWrapper = styled.span`
   border: 2px solid rgba(0, 0, 0, 0.5);

@@ -23,7 +23,16 @@ const scrapeProductsFromCategories = async (category) => {
       img_url: $imgEl.prop('src'),
       eq_name: $imgEl.prop('alt'),
       link: $imgEl.parent().prop('href'),
-      price: $imgEl.closest('.product').find('ins span').text(),
+      price: Math.trunc(
+        parseFloat(
+          $imgEl
+            .closest('.product')
+            .find('ins span')
+            .text()
+            .replace('$', '')
+            .replace(',', '')
+        ) * 100
+      ),
     };
     products.push(p);
   });

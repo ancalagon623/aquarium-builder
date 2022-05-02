@@ -3,7 +3,7 @@ const { pool, sql } = require('../db');
 const calcPrice = (equipment) =>
   equipment.reduce((acc, e) => {
     // eslint-disable-next-line no-param-reassign
-    acc += Math.trunc(parseFloat(e.price.slice(1)) * 100);
+    acc += e.price;
     return acc;
   }, 0);
 

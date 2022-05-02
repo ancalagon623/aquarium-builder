@@ -40,7 +40,7 @@ sql.createEquipmentTable = () => `
     seller VARCHAR,
     seller_site VARCHAR,
     type VARCHAR,
-    price VARCHAR,
+    price int,
     img_url VARCHAR,
     link VARCHAR
   );
@@ -102,6 +102,14 @@ sql.newBuild = (buildInfo, user_id) => ({
     `,
   // eslint-disable-next-line camelcase
   values: [buildInfo.name, buildInfo.description || null, user_id],
+});
+
+sql.getBuildById = (id) => ({
+  text: `
+        SELECT * FROM builds
+        WHERE bld_id = $1;
+      `,
+  values: [id],
 });
 
 sql.deleteBuild = (id) => ({
@@ -166,13 +174,27 @@ sql.getAllCategories = () => `
   SELECT DISTINCT type FROM equipment;
 `;
 
-sql.getEquipmentInCategory = (categoryName) => ({
-  text: `
+sql.getEquipmentInCategory = (categoryName, query) => {
+  console.log(query);
+
+  return {
+    text: `
       SELECT * FROM equipment
-      WHERE type = $1;
+      WHERE type = $1 ${
+        query['lower-limit']
+          ? `AND price >= ${parseFloat(query['lower-limit']) * 100}`
+          : ''
+      } ${
+      query['upper-limit']
+        ? `AND price <= ${parseFloat(query['upper-limit']) * 100}`
+        : ''
+    } ${query.highest ? 'ORDER BY price DESC' : ''} ${
+      query.lowest ? 'ORDER BY price' : ''
+    };
     `,
-  values: [categoryName],
-});
+    values: [categoryName],
+  };
+};
 
 sql.addEquipmentToBuild = (equipmentId, buildId) => ({
   text: `

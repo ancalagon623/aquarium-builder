@@ -83,6 +83,22 @@ const UserPage = () => {
     fetchBuilds();
   }, []);
 
+  useEffect(() => {
+    const closePopUp = (e) => {
+      console.log(e);
+      if (
+        !e.target.className.split(' ').includes('delete-button') &&
+        !e.target.className.split(' ').includes('warning-popup')
+      ) {
+        setBuildToDelete(0);
+      }
+    };
+    document.body.addEventListener('click', closePopUp);
+    return () => {
+      document.body.removeEventListener('click', closePopUp);
+    };
+  }, []);
+
   return (
     <UserContainer>
       <HeaderBackground>
@@ -126,12 +142,16 @@ const UserPage = () => {
                 // nothing happens when clicking on this div either.
               }}
             >
-              <DeleteButton onClick={() => deleteBuildHandler(b.bld_id)}>
+              <DeleteButton
+                className="delete-button"
+                onClick={() => deleteBuildHandler(b.bld_id)}
+              >
                 {/* but selecting this button fires the event */}
                 <FaTrash />
               </DeleteButton>
               {b.bld_id === buildToDelete ? (
                 <DeleteChecker
+                  className="warning-popup"
                   onFocus={(e) => {
                     console.log('focus');
                     // nothing happens when clicking on this div.

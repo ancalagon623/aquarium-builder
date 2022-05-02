@@ -161,7 +161,12 @@ const EditBuild = () => {
                           <Image src={eq.img_url} alt={eq.eq_name} />
                         </ImageWrapper>
                         <EquipmentTitle>{eq.eq_name}</EquipmentTitle>{' '}
-                        <Price>{eq.price}</Price>
+                        <Price>
+                          {(eq.price / 100).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                          })}
+                        </Price>
                         <AddEqButton
                           onClick={() => {
                             removeHandler(eq.eq_id, build.bld_id);
