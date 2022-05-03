@@ -53,6 +53,13 @@ const Login = () => {
   return (
     <Background>
       <BackButton onClick={goBack}>{'<  Back'}</BackButton>
+      <HomeButton
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        Home
+      </HomeButton>
       <LoginBackground>
         <LoginForm onSubmit={handleSubmit}>
           <h3 className="login-tag">Login to Your Account</h3>
@@ -68,7 +75,7 @@ const Login = () => {
           ) : null}
           <Label htmlFor="password">Password</Label>
           <Input
-            type="text"
+            type="password"
             id="password"
             value={password}
             onChange={handleInputChange}
@@ -80,6 +87,16 @@ const Login = () => {
           {loginError.message === 'Unauthorized' ? (
             <ValError>Invalid username or password</ValError>
           ) : null}
+          <p>
+            New to AquariumBuilder?{' '}
+            <LinkButton
+              onClick={() => {
+                navigate('/signup');
+              }}
+            >
+              Sign Up
+            </LinkButton>
+          </p>
         </LoginForm>
       </LoginBackground>
     </Background>
@@ -97,6 +114,27 @@ const Background = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+`;
+
+const HomeButton = styled.button`
+  position: absolute;
+  font-family: 'Raleway', sans-serif;
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  left: 100px;
+  top: 10px;
+`;
+
+const LinkButton = styled.button`
+  all: unset;
+  cursor: pointer;
+  text-decoration: underline;
+  &:hover {
+    color: purple;
+  }
 `;
 
 const BackButton = styled.button`

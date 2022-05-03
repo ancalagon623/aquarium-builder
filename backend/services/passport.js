@@ -1,5 +1,5 @@
 const passport = require('passport');
-
+const bcrypt = require('bcrypt');
 const { ExtractJwt } = require('passport-jwt');
 
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -11,10 +11,14 @@ const localLogin = new LocalStrategy((username, password, done) => {
     if (err) {
       return done(err);
     }
-    const found = results.rows.find((u) => u.password_temp === password);
+    const user = results.rows[0];
+    if (!user) {
+      return done(null, false);
+    }
 
-    if (found) {
-      done(null, found);
+    const isAuthorized = bcrypt.compareSync(password, user.password);
+    if (isAuthorized) {
+      done(null, user);
     } else {
       done(null, false);
     }
