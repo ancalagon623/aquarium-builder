@@ -4,10 +4,22 @@ const initialState = {
   username: '',
   user_id: 0,
   loginError: {},
+  message: '',
 };
 
 // eslint-disable-next-line
 const userReducer = (state = initialState, {type, payload}) => {
+  if (type === 'SIGNUP_SUCCESS') {
+    return { ...state, message: 'Sign up successful', loginError: {} };
+  }
+  if (type === 'SIGNUP_ERROR') {
+    return {
+      ...state,
+      loginError: {
+        signup: true,
+      },
+    };
+  }
   if (type === 'LOGIN_SUCCESS') {
     localStorage.setItem('token', payload.auth_token);
     return {

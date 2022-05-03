@@ -24,6 +24,26 @@ export const hydrateUserInfo = (token, navigate) => async (dispatch) => {
   }
 };
 
+export const signup = (userInfo, navigate) => async (dispatch) => {
+  const options = {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(userInfo),
+    url: `${process.env.REACT_APP_BACKEND}/api/signup`,
+  };
+
+  try {
+    const { status } = await axios(options);
+
+    if (status === 200) {
+      dispatch({ type: 'SIGNUP_SUCCESS' });
+      navigate('/login');
+    }
+  } catch (err) {
+    dispatch({ type: 'SIGNUP_ERROR' });
+  }
+};
+
 export const login = (loginObj) => async (dispatch) => {
   const options = {
     method: 'POST',
