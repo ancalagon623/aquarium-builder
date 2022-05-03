@@ -175,7 +175,15 @@ sql.getAllCategories = () => `
 `;
 
 sql.getEquipmentInCategory = (categoryName, query) => {
-  console.log(query);
+  const resolveSortOrder = (sortProp) => {
+    if (sortProp === 'highest') {
+      return 'ORDER BY price DESC';
+    }
+    if (sortProp === 'lowest') {
+      return 'ORDER BY price';
+    }
+    return '';
+  };
 
   return {
     text: `
@@ -188,9 +196,7 @@ sql.getEquipmentInCategory = (categoryName, query) => {
       query['upper-limit']
         ? `AND price <= ${parseFloat(query['upper-limit']) * 100}`
         : ''
-    } ${query.highest ? 'ORDER BY price DESC' : ''} ${
-      query.lowest ? 'ORDER BY price' : ''
-    };
+    } ${resolveSortOrder(query.sort)};
     `,
     values: [categoryName],
   };
