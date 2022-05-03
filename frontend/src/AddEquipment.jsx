@@ -32,6 +32,10 @@ const AddEquipment = () => {
     }
   }, []);
 
+  const goToItem = (link) => {
+    window.open(link, '_blank');
+  };
+
   return (
     <Container>
       {currentCategory ? (
@@ -60,6 +64,13 @@ const AddEquipment = () => {
                       style: 'currency',
                     })}
                   </Price>
+                  <VisitStore
+                    onClick={() => {
+                      goToItem(e.link);
+                    }}
+                  >
+                    View Item
+                  </VisitStore>
                   <ChooseEqButton
                     type="button"
                     onClick={() => {
@@ -108,8 +119,29 @@ const List = styled.ul`
 
 const EquipmentItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
   align-items: center;
+`;
+
+const VisitStore = styled.button`
+  all: unset;
+  background-color: #1764c9ce;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 1rem;
+  height: fit-content;
+  width: fit-content;
+  justify-self: center;
+  box-shadow: 0 3px 0 #706f6f;
+  transition: background-color 250ms ease-in-out;
+  &:hover {
+    background-color: #09a8f1d2;
+  }
+  &:active {
+    box-shadow: none;
+    transform: translateY(5px);
+  }
 `;
 
 const ChooseEqButton = styled.button``;

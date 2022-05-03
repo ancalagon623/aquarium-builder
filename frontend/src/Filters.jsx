@@ -4,14 +4,15 @@ import { FaCaretRight, FaCaretDown } from 'react-icons/fa';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
+const initialFilter = {
+  'lower-limit': '',
+  'upper-limit': '',
+  sort: '',
+};
+
 const Filters = ({ setEquipment }) => {
   const { currentCategory } = useSelector((state) => state.categories);
-  const [filters, setFilters] = useState({
-    'lower-limit': '',
-    'upper-limit': '',
-    highest: '',
-    lowest: '',
-  });
+  const [filters, setFilters] = useState(initialFilter);
   const [showFilters, setShowFilters] = useState([]);
 
   const toggleFilterDropdown = (filterString) => {
@@ -23,7 +24,12 @@ const Filters = ({ setEquipment }) => {
   };
 
   const handleFiltersChange = (e) => {
-    setFilters((state) => ({ ...state, [e.target.id]: e.target.value }));
+    setFilters((state) => {
+      if (['highest', 'lowest'].includes(e.target.id)) {
+        return { ...state, sort: e.target.id };
+      }
+      return { ...state, [e.target.id]: e.target.value };
+    });
   };
 
   const filterEquipment = async () => {
@@ -56,16 +62,6 @@ const Filters = ({ setEquipment }) => {
               setFilters((state) => ({ ...state, search: e.target.value }));
             }}
           />
-          <button
-            type="button"
-            onClick={(e) => {
-              if (filters.search) {
-                // make a filtered request for equipment
-              }
-            }}
-          >
-            Search
-          </button>
         </label>
       </div>
       <div>
@@ -97,7 +93,8 @@ const Filters = ({ setEquipment }) => {
                 <input
                   type="radio"
                   id="highest"
-                  value={filters.highest}
+                  checked={filters.sort === 'highest'}
+                  value="highest"
                   name="price-filter"
                   onChange={handleFiltersChange}
                 />
@@ -109,7 +106,8 @@ const Filters = ({ setEquipment }) => {
                 <input
                   type="radio"
                   id="lowest"
-                  value={filters.lowest}
+                  checked={filters.sort === 'lowest'}
+                  value="lowest"
                   name="price-filter"
                   onChange={handleFiltersChange}
                 />
@@ -147,12 +145,9 @@ const Filters = ({ setEquipment }) => {
             <button
               type="button"
               onClick={() => {
-                setFilters({
-                  'lower-limit': '',
-                  'upper-limit': '',
-                  highest: '',
-                  lowest: '',
-                });
+                setFilters(initialFilter);
+                document.getElementById('lowest').checked = false;
+                document.getElementById('highest').checked = false;
               }}
             >
               Clear All

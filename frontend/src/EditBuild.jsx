@@ -68,6 +68,10 @@ const EditBuild = () => {
     dispatch(deleteEquipmentFromBuild(equipmentId, buildId));
   };
 
+  const goToItem = (link) => {
+    window.open(link, '_blank');
+  };
+
   return (
     <div>
       <BuildProfileGrid>
@@ -167,6 +171,13 @@ const EditBuild = () => {
                             currency: 'USD',
                           })}
                         </Price>
+                        <VisitStore
+                          onClick={() => {
+                            goToItem(eq.link);
+                          }}
+                        >
+                          View Item
+                        </VisitStore>
                         <AddEqButton
                           onClick={() => {
                             removeHandler(eq.eq_id, build.bld_id);
@@ -220,15 +231,15 @@ const List = styled.ul`
   list-style: none;
   padding: 0 5%;
 `;
-
+// #
 const TotalPrice = styled.div``;
 
 const CategoryName = styled.h3`
-  background-color: #888ca1;
+  background-color: var(--theme);
   display: grid;
   grid-template-columns: 1fr 4fr 10%;
   padding: 0.5rem 0 0.5rem 10px;
-  border: 4px solid #646ea0;
+  border: 4px solid #888ca1;
 `;
 
 const CategoryTitle = styled.span`
@@ -259,7 +270,7 @@ const EquipmentDropdown = styled.div``;
 
 const EquipmentItem = styled.div`
   display: grid;
-  grid-template-columns: 10% 1fr 1fr 10%;
+  grid-template-columns: 10% 1fr 1fr 1fr 10%;
   text-align: center;
   align-items: center;
 `;
@@ -277,4 +288,25 @@ const Image = styled.img`
 
 const Price = styled.span`
   height: fit-content;
+`;
+
+const VisitStore = styled.button`
+  all: unset;
+  background-color: #1764c9ce;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 1rem;
+  height: fit-content;
+  width: fit-content;
+  justify-self: center;
+  box-shadow: 0 3px 0 #706f6f;
+  transition: background-color 250ms ease-in-out;
+  &:hover {
+    background-color: #09a8f1d2;
+  }
+  &:active {
+    box-shadow: none;
+    transform: translateY(5px);
+  }
 `;
