@@ -58,7 +58,7 @@ const MainDiv = styled.div`
 const Content = styled.div`
   background-color: #f3f0ec;
   z-index: 2;
-  margin-top: 164px;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  margin: 164px auto 0 auto;
+  width: 80%;
+  padding: 1rem;
 `;
