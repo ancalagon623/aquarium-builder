@@ -24,15 +24,18 @@ const Start = () => {
         <Motto>
           <span>Building an aquarium </span>
           <span>{" shouldn't be complicated."}</span>
+          <span>Now it isn't.</span>
         </Motto>
         <Logo>
-          <FaQuestion />
-
-          <FaFish />
-          <MainIcon
-            src="./fishbowl-icon.jpg"
-            alt="man in a fishbowl, thinking"
-          />
+          <Wrapper>
+            <StyledFaQuestion />
+            <StyledFaQuestion2 />
+            <StyledFaFish />
+            <MainIcon
+              src="./fishbowl-icon.jpg"
+              alt="man in a fishbowl, thinking"
+            />
+          </Wrapper>
         </Logo>
       </Header>
       <SectionTitle>Setup Guides</SectionTitle>
@@ -112,7 +115,7 @@ const Start = () => {
 export default Start;
 
 const SectionTitle = styled.h4`
-  margin-top: 25vh;
+  margin-top: 15vh;
   font-size: 2rem;
   background-color: var(--theme);
   padding: 5px;
@@ -135,6 +138,34 @@ const Motto = styled.div`
   gap: 5px;
   font-size: 3rem;
   justify-content: left;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
+
+const StyledFaQuestion = styled(FaQuestion)`
+  font-size: larger;
+  position: absolute;
+  color: white;
+  left: 37%;
+  top: 30%;
+`;
+
+const StyledFaQuestion2 = styled(FaQuestion)`
+  font-size: x-large;
+  position: absolute;
+  color: white;
+  left: 45%;
+  top: 25%;
+`;
+
+const StyledFaFish = styled(FaFish)`
+  font-size: larger;
+  position: absolute;
+  color: white;
+  left: 50%;
+  top: 32%;
 `;
 
 const MainIcon = styled.img`
