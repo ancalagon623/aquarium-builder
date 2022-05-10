@@ -178,6 +178,7 @@ const UserContainer = styled.div``;
 
 const HeaderBackground = styled.div`
   background-color: var(--theme);
+  border-radius: 5px;
   border-bottom-left-radius: 50px;
   padding-top: 2rem;
   padding-bottom: 0.1rem;

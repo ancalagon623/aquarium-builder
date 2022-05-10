@@ -78,67 +78,65 @@ const EditBuild = () => {
         <ProfileImageWrapper>
           <ProfileImage src={build.img_url || fillerImg} alt={build.name} />
         </ProfileImageWrapper>
-        <BuildTitle>
-          <p>Build Name</p>
-          {!editMode.includes('name') ? (
-            <>
-              <span>{build.name}</span>
-              <button
-                type="button"
-                onClick={() => setEditMode((state) => [...state, 'name'])}
-              >
-                Change
-              </button>
-            </>
-          ) : (
-            <form id="name" onSubmit={handleSubmit}>
-              <label>
-                New Name{' '}
+        <Inset>
+          <BuildTitle id="name" onSubmit={handleSubmit}>
+            <label htmlFor="name">Build Name</label>
+            {!editMode.includes('name') ? (
+              <>
+                <span>{build.name}</span>
+                <button
+                  type="button"
+                  onClick={() => setEditMode((state) => [...state, 'name'])}
+                >
+                  Change
+                </button>
+              </>
+            ) : (
+              <>
                 <input
                   type="text"
+                  name="name"
                   value={name}
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
                   placeholder="Name"
                 />
-              </label>
-              <button type="submit">Save</button>
-            </form>
-          )}
-        </BuildTitle>
-        <Description>
-          <p>Description</p>
-          {!editMode.includes('description') ? (
-            <>
-              <span>{build.description}</span>
-              <button
-                type="button"
-                onClick={() =>
-                  setEditMode((state) => [...state, 'description'])
-                }
-              >
-                Change
-              </button>
-            </>
-          ) : (
-            <form id="description" onSubmit={handleSubmit}>
-              <label>
-                New Description{' '}
+                <button type="submit">Save</button>
+              </>
+            )}
+          </BuildTitle>
+          <Description id="description" onSubmit={handleSubmit}>
+            <label htmlFor="description">Description</label>
+            {!editMode.includes('description') ? (
+              <>
+                <span>{build.description}</span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setEditMode((state) => [...state, 'description'])
+                  }
+                >
+                  Change
+                </button>
+              </>
+            ) : (
+              <>
                 <textarea
                   type="text"
+                  name="description"
                   value={description}
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
                   placeholder="Description"
                 />
-              </label>
-              <button type="submit">Save</button>
-            </form>
-          )}
-        </Description>
-        <TotalPrice>Total: ${build.price / 100 || 0}</TotalPrice>
+                <button type="submit">Save</button>
+              </>
+            )}
+          </Description>
+          <TotalPrice>Total: ${build.price / 100 || 0}</TotalPrice>
+        </Inset>
       </BuildProfileGrid>
       <List>
         {list.map((c, i) => (
@@ -204,26 +202,40 @@ const StyledDelete = styled(FaTrash)`
 `;
 
 const BuildProfileGrid = styled.h3`
-  margin: 1.5rem 5%;
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  padding: 1.5rem;
+  border-radius: 5px;
+  border-bottom-left-radius: 50px;
+  margin: 0;
+  background-color: var(--theme);
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 `;
 
 const ProfileImageWrapper = styled.div`
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 4;
+  flex-grow: 1;
+  text-align: center;
+`;
+
+const Inset = styled.div`
+  justify-self: center;
+  flex-grow: 2;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  background-color: whitesmoke;
+  box-shadow: 0 0 8px 2px grey inset;
+  border-radius: 5px;
+  padding: 1rem;
 `;
 
 const ProfileImage = styled.img``;
 
-const BuildTitle = styled.div`
+const BuildTitle = styled.form`
   font-size: 1rem;
 `;
 
-const Description = styled.div`
+const Description = styled.form`
   font-size: 1rem;
 `;
 

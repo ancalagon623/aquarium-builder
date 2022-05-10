@@ -42,7 +42,7 @@ const NewBuild = () => {
       </Header>
       <div>
         <BuildForm onSubmit={submitHandler}>
-          <label htmlFor="build-name">Setup Name</label>
+          <Label htmlFor="build-name">Setup Name</Label>
           <NameInput
             type="text"
             id="build-name"
@@ -52,7 +52,7 @@ const NewBuild = () => {
             onChange={handleInputChange}
           />
           {validationError ? <ValError>{validationError}</ValError> : null}
-          <label htmlFor="build-description">Setup Description</label>
+          <Label htmlFor="build-description">Setup Description</Label>
           <DescInput
             id="build-description"
             name="build-description"
@@ -72,7 +72,8 @@ const NewBuild = () => {
 export default NewBuild;
 
 const ValError = styled.label`
-  color: #ac0909;
+  color: #8a0808;
+  font-weight: 700;
   display: block;
 `;
 
@@ -84,19 +85,31 @@ const Header = styled.div`
 `;
 
 const Title = styled.h2`
+  font-size: 2.3rem;
   padding-left: 20px;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-image:
+  background-image: url('/background_1.jpg'), url('/background_2.jpg'),
+    url('/background_3.jpg');
+  background-color: var(--theme);
+  background-position: top 400px left 0px, top 200px left 0px,
+    top -200px left 0px;
+  background-size: 100%, 100%, cover;
+  background-clip: border-box, border-box, padding-box;
+  background-repeat: no-repeat;
   height: 100%;
+`;
+
+const Label = styled.label`
+  font-weight: 700;
+  margin-top: 20px;
 `;
 
 const NameInput = styled.input`
   display: block;
-  margin-bottom: 20px;
 `;
 
 const BuildForm = styled.form`
@@ -105,6 +118,7 @@ const BuildForm = styled.form`
   flex-direction: column;
   gap: 10px;
   justify-content: left;
+  background-color: #f5f5f589;
   border: 10px solid var(--theme);
   border-radius: 5px;
   padding: 2rem;
@@ -116,6 +130,24 @@ const DescInput = styled.textarea`
 `;
 
 const SubmitButton = styled.button`
-  margin-top: 30px;
+  all: unset;
+  margin-top: 20px;
+  font-weight: 700;
+  background-color: #1764c9ce;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 1rem;
+  height: fit-content;
   width: fit-content;
+  justify-self: center;
+  box-shadow: 0 3px 0 #706f6f;
+  transition: background-color 250ms ease-in-out;
+  &:hover {
+    background-color: #09a8f1d2;
+  }
+  &:active {
+    box-shadow: none;
+    transform: translateY(5px);
+  }
 `;
