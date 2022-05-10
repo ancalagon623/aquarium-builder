@@ -22,6 +22,7 @@ const EditBuild = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // window.scrollTo(0, 0);
     const storedBuild = localStorage.getItem('currentBuild');
     if (!list.length) {
       dispatch(getCategories());
@@ -43,20 +44,22 @@ const EditBuild = () => {
     e.preventDefault();
     if (e.target.id === 'name') {
       if (!name)
-        return setEditMode((state) => state.filter((mode) => !mode === 'name'));
+        return setEditMode((state) => state.filter((mode) => mode !== 'name'));
       dispatch(
         updateBuildInfo(build.bld_id, { name }, () => {
-          setEditMode((state) => state.filter((mode) => !mode === 'name'));
+          setEditMode((state) => state.filter((mode) => mode !== 'name'));
           setName('');
         })
       );
     } else {
       if (!description)
-        return setEditMode((state) => state.filter((mode) => !mode === 'name'));
+        return setEditMode((state) =>
+          state.filter((mode) => mode !== 'description')
+        );
       dispatch(
         updateBuildInfo(build.bld_id, { description }, () => {
           setEditMode((state) =>
-            state.filter((mode) => !mode === 'description')
+            state.filter((mode) => mode !== 'description')
           );
           setDescription('');
         })
@@ -73,71 +76,87 @@ const EditBuild = () => {
   };
 
   return (
-    <div>
+    <>
+      <SectionHeadings>
+        <HeadingText>Edit Build Details</HeadingText>
+      </SectionHeadings>
       <BuildProfileGrid>
         <ProfileImageWrapper>
           <ProfileImage src={build.img_url || fillerImg} alt={build.name} />
         </ProfileImageWrapper>
         <Inset>
-          <BuildTitle id="name" onSubmit={handleSubmit}>
-            <label htmlFor="name">Build Name</label>
-            {!editMode.includes('name') ? (
-              <>
-                <span>{build.name}</span>
-                <button
-                  type="button"
-                  onClick={() => setEditMode((state) => [...state, 'name'])}
-                >
-                  Change
-                </button>
-              </>
-            ) : (
-              <>
-                <input
-                  type="text"
-                  name="name"
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                  placeholder="Name"
-                />
-                <button type="submit">Save</button>
-              </>
-            )}
-          </BuildTitle>
-          <Description id="description" onSubmit={handleSubmit}>
-            <label htmlFor="description">Description</label>
-            {!editMode.includes('description') ? (
-              <>
-                <span>{build.description}</span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setEditMode((state) => [...state, 'description'])
-                  }
-                >
-                  Change
-                </button>
-              </>
-            ) : (
-              <>
-                <textarea
-                  type="text"
-                  name="description"
-                  value={description}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-                  placeholder="Description"
-                />
-                <button type="submit">Save</button>
-              </>
-            )}
-          </Description>
-          <TotalPrice>Total: ${build.price / 100 || 0}</TotalPrice>
+          <Label htmlFor="name">Build Name</Label>
+          {!editMode.includes('name') ? (
+            <InlineFlexWrapper>
+              <Name>{build.name}</Name>
+              <EditFormButton
+                type="button"
+                onClick={() => {
+                  setName(build.name);
+                  setEditMode((state) => [...state, 'name']);
+                }}
+              >
+                Change
+              </EditFormButton>
+            </InlineFlexWrapper>
+          ) : (
+            <InlineFlexWrapper>
+              <NameInput
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                placeholder="Name"
+              />
+              <EditFormButton id="name" type="button" onClick={handleSubmit}>
+                Save
+              </EditFormButton>
+            </InlineFlexWrapper>
+          )}
+
+          <Label htmlFor="description">Description</Label>
+          {!editMode.includes('description') ? (
+            <InlineFlexWrapper>
+              <Description>{build.description}</Description>
+              <EditFormButton
+                type="button"
+                onClick={() => {
+                  setDescription(build.description);
+                  setEditMode((state) => [...state, 'description']);
+                }}
+              >
+                Change
+              </EditFormButton>
+            </InlineFlexWrapper>
+          ) : (
+            <InlineFlexWrapper>
+              <DescInput
+                type="text"
+                name="description"
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+                placeholder="Description"
+              />
+              <EditFormButton
+                id="description"
+                type="button"
+                onClick={handleSubmit}
+              >
+                Save
+              </EditFormButton>
+            </InlineFlexWrapper>
+          )}
+          <Label>Total Cost</Label>
+          <TotalPrice>${build.price / 100 || 0}</TotalPrice>
         </Inset>
       </BuildProfileGrid>
+      <SectionHeadings>
+        <HeadingText>Pick your equipment</HeadingText>
+      </SectionHeadings>
       <List>
         {list.map((c, i) => (
           <CategoryItem key={i}>
@@ -191,11 +210,24 @@ const EditBuild = () => {
           </CategoryItem>
         ))}
       </List>
-    </div>
+    </>
   );
 };
 
 export default EditBuild;
+
+const SectionHeadings = styled.h2`
+  background-image: linear-gradient(to right, var(--theme), 40%, #ffffff28);
+  height: 60px;
+  margin-top: 10vh;
+  padding-left: 15px;
+  border-radius: 5px;
+  display: flex;
+`;
+
+const HeadingText = styled.span`
+  align-self: center;
+`;
 
 const StyledDelete = styled(FaTrash)`
   color: #a5051b;
@@ -205,7 +237,7 @@ const BuildProfileGrid = styled.h3`
   padding: 1.5rem;
   border-radius: 5px;
   border-bottom-left-radius: 50px;
-  margin: 0;
+  margin: 0 5%;
   background-color: var(--theme);
   display: flex;
   justify-content: space-around;
@@ -214,15 +246,20 @@ const BuildProfileGrid = styled.h3`
 `;
 
 const ProfileImageWrapper = styled.div`
-  flex-grow: 1;
   text-align: center;
+  align-self: center;
+  height: fit-content;
+  padding: 1%;
+  border-radius: 5px;
+  background-color: whitesmoke;
 `;
 
 const Inset = styled.div`
   justify-self: center;
-  flex-grow: 2;
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  flex: 0 1 300px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
   background-color: whitesmoke;
   box-shadow: 0 0 8px 2px grey inset;
   border-radius: 5px;
@@ -231,19 +268,93 @@ const Inset = styled.div`
 
 const ProfileImage = styled.img``;
 
-const BuildTitle = styled.form`
+const NameTitle = styled.div`
   font-size: 1rem;
+  display: flex;
+  flex-direction: column;
 `;
 
-const Description = styled.form`
+const DescriptionTitle = styled.div`
   font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+const InlineFlexWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+`;
+
+const EditFormButton = styled.button`
+  all: unset;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 200;
+  background-color: rgba(38, 202, 125, 0.692);
+  cursor: pointer;
+  padding: 10px 10px;
+  font-size: 0.8rem;
+  border-radius: 1rem;
+  height: fit-content;
+  width: 50px;
+  text-align: center;
+  justify-self: center;
+  box-shadow: 0 3px 0 #706f6f;
+  transition: background-color 250ms ease-in-out;
+  &:hover {
+    background-color: #067c45d2;
+  }
+  &:active {
+    box-shadow: none;
+    transform: translateY(3px);
+  }
+  height: fit-content;
+  align-self: center;
+`;
+
+const Name = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  align-self: center;
+  padding: 5px;
+  border-bottom: 2px solid var(--theme);
+`;
+
+const Description = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 200;
+  align-self: center;
+  padding: 5px;
+  border: 2px solid var(--theme);
+  border-radius: 5px;
+`;
+
+const NameInput = styled.input`
+  height: 30px;
+  align-self: center;
+`;
+
+const DescInput = styled.textarea`
+  width: 200px;
+  height: 50px;
+  align-self: center;
+`;
+
+const Label = styled.label`
+  display: block;
+  padding: 5px;
+  height: fit-content;
+  background-image: linear-gradient(to right, var(--theme), 40%, #ffffff28);
 `;
 
 const List = styled.ul`
   list-style: none;
   padding: 0 5%;
 `;
-// #
+
 const TotalPrice = styled.div``;
 
 const CategoryName = styled.h3`
@@ -319,6 +430,6 @@ const VisitStore = styled.button`
   }
   &:active {
     box-shadow: none;
-    transform: translateY(5px);
+    transform: translateY(3px);
   }
 `;
