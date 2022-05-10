@@ -30,6 +30,7 @@ const AddEquipment = () => {
     if (currentCategory) {
       fetchEquipmentByCategory();
     }
+    window.scrollTo(0, 0);
   }, []);
 
   const goToItem = (link) => {

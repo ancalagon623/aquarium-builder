@@ -85,7 +85,6 @@ const UserPage = () => {
 
   useEffect(() => {
     const closePopUp = (e) => {
-      console.log(e);
       if (
         !e.target.className.split(' ').includes('delete-button') &&
         !e.target.className.split(' ').includes('warning-popup')
@@ -102,12 +101,7 @@ const UserPage = () => {
   return (
     <UserContainer>
       <HeaderBackground>
-        <Header
-          onFocus={(e) => {
-            console.log('focus');
-            // nothing happens when clicking on this div.
-          }}
-        >
+        <Header>
           <h2>Account Details</h2>
           <h4>username: {username}</h4>
           <h4>name: {name}</h4>
@@ -136,30 +130,17 @@ const UserPage = () => {
                 <FaEdit />
               </EditButton>
             </ButtonWrapper>
-            <ButtonWrapper
-              onFocus={(e) => {
-                console.log('focus');
-                // nothing happens when clicking on this div either.
-              }}
-            >
+            <ButtonWrapper>
               <DeleteButton
                 className="delete-button"
                 onClick={() => deleteBuildHandler(b.bld_id)}
               >
-                {/* but selecting this button fires the event */}
                 <FaTrash />
               </DeleteButton>
               {b.bld_id === buildToDelete ? (
-                <DeleteChecker
-                  className="warning-popup"
-                  onFocus={(e) => {
-                    console.log('focus');
-                    // nothing happens when clicking on this div.
-                  }}
-                >
+                <DeleteChecker className="warning-popup">
                   <span>Are you sure?</span>
                   <ConfirmDelete onClick={() => confirmDelete(b.bld_id)}>
-                    {/* But if I click here the focus event also fires */}
                     Delete
                   </ConfirmDelete>
                 </DeleteChecker>
