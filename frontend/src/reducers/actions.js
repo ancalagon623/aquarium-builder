@@ -17,7 +17,9 @@ export const hydrateUserInfo = (token, navigate) => async (dispatch) => {
     }
   } catch (err) {
     if (err.response.status === 401) {
-      dispatch({ type: 'LOGIN_REQUIRED', payload: { navigate } });
+      localStorage.removeItem('token');
+      dispatch({ type: 'LOGOUT' });
+      navigate('/');
     } else {
       return null;
     }
