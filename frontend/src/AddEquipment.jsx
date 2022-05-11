@@ -8,6 +8,7 @@ import Filters from './Filters';
 
 const AddEquipment = () => {
   const { currentCategory } = useSelector((state) => state.categories);
+  const currentBuild = useSelector((state) => state.builds.currentBuild);
   const [equipment, setEquipment] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,55 +42,62 @@ const AddEquipment = () => {
     <Container>
       {currentCategory ? (
         <EquipmentContent>
-          <div>
+          <PageTitle>
+            <TitleText>
+              Add {currentCategory} to '
+              {currentBuild.name || '(no build available)'}'
+            </TitleText>
+          </PageTitle>
+
+          <InnerCategoryName>
             <h2>{currentCategory}</h2>
-          </div>
-          <EquipmentItem>
+          </InnerCategoryName>
+          <EquipmentItemHeading>
             <div />
-            <h3>Title</h3>
+            <h3>Name</h3>
             <h3>Price</h3>
             <div />
-          </EquipmentItem>
-          <Filters setEquipment={setEquipment} />
-          <List>
+            <div />
+          </EquipmentItemHeading>
+
+          <StyledFilters setEquipment={setEquipment} />
+          <EqList>
             {equipment.map((e, i) => (
-              <li key={i}>
-                <EquipmentItem>
-                  <ImageWrapper>
-                    <Image src={e.img_url} alt={e.eq_name} />
-                  </ImageWrapper>
-                  {e.eq_name}{' '}
-                  <Price>
-                    {(e.price / 100).toLocaleString('en-US', {
-                      currency: 'USD',
-                      style: 'currency',
-                    })}
-                  </Price>
-                  <VisitStore
-                    onClick={() => {
-                      goToItem(e.link);
-                    }}
-                  >
-                    View Item
-                  </VisitStore>
-                  <ChooseEqButton
-                    type="button"
-                    onClick={() => {
-                      dispatch(
-                        addEquipmentToBuild(
-                          e.eq_id,
-                          localStorage.getItem('currentBuild'),
-                          navigate
-                        )
-                      );
-                    }}
-                  >
-                    + Add to Build
-                  </ChooseEqButton>
-                </EquipmentItem>
-              </li>
+              <EquipmentItem key={e.eq_id}>
+                <ImageWrapper>
+                  <Image src={e.img_url} alt={e.eq_name} />
+                </ImageWrapper>
+                {e.eq_name}{' '}
+                <Price>
+                  {(e.price / 100).toLocaleString('en-US', {
+                    currency: 'USD',
+                    style: 'currency',
+                  })}
+                </Price>
+                <VisitStore
+                  onClick={() => {
+                    goToItem(e.link);
+                  }}
+                >
+                  View Item
+                </VisitStore>
+                <ChooseEqButton
+                  type="button"
+                  onClick={() => {
+                    dispatch(
+                      addEquipmentToBuild(
+                        e.eq_id,
+                        localStorage.getItem('currentBuild'),
+                        navigate
+                      )
+                    );
+                  }}
+                >
+                  + Add to Build
+                </ChooseEqButton>
+              </EquipmentItem>
             ))}
-          </List>
+          </EqList>
         </EquipmentContent>
       ) : (
         <h2>Select a category to get started</h2>
@@ -107,21 +115,68 @@ const Container = styled.div`
 const EquipmentContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 4fr;
-  grid-template-rows: 1fr 19fr;
+  grid-template-rows: 65px 1fr max-content;
+`;
+
+const PageTitle = styled.h2`
+  grid-column-start: 1;
+  grid-column-end: 3;
+  padding-left: 15px;
+  margin: 0 0 15px 0;
+  display: flex;
+  background-image: linear-gradient(to right, var(--theme), 40%, #ffffff28);
+  border-radius: 5px;
+`;
+
+const TitleText = styled.span`
+  align-self: center;
+`;
+
+const SecondaryHeading = styled.h2`
+  grid-column-start: 1;
+  grid-column-end: 3;
+  font-size: inherit;
+  background-color: var(--theme);
+`;
+
+const EquipmentItemHeading = styled.div`
+  background-color: var(--theme);
+  display: grid;
+  padding: 0 20px;
+  grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
+  gap: 15px;
+  align-items: center;
+`;
+
+const StyledFilters = styled(Filters)`
+  background-color: var(--theme);
+`;
+
+const InnerCategoryName = styled.div`
+  display: inline-block;
+  background-color: var(--theme);
 `;
 
 const Price = styled.span``;
 
-const List = styled.ul`
+const EqList = styled.ul`
+  margin: 0;
   list-style: none;
-  margin-top: 0;
-  padding-right: 3em;
+  padding: 20px 0 0 0;
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content;
 `;
 
 const EquipmentItem = styled.div`
   display: grid;
+  padding-bottom: 15px;
+  margin: 0 20px;
   grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
+  gap: 15px;
   align-items: center;
+  border-bottom: 1px solid black;
 `;
 
 const VisitStore = styled.button`

@@ -393,6 +393,8 @@ const EquipmentDropdown = styled.div``;
 
 const EquipmentItem = styled.div`
   display: grid;
+  padding: 10px 0;
+  border-bottom: 1px solid black;
   grid-template-columns: 10% 1fr 1fr 1fr 10%;
   text-align: center;
   align-items: center;
@@ -401,7 +403,6 @@ const EquipmentItem = styled.div`
 const ImageWrapper = styled.span`
   border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 3px;
-  margin-bottom: 10px;
 `;
 
 const Image = styled.img`

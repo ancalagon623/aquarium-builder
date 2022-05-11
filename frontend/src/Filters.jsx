@@ -10,7 +10,7 @@ const initialFilter = {
   sort: '',
 };
 
-const Filters = ({ setEquipment }) => {
+const Filters = ({ className, setEquipment }) => {
   const { currentCategory } = useSelector((state) => state.categories);
   const [filters, setFilters] = useState(initialFilter);
   const [showFilters, setShowFilters] = useState([]);
@@ -52,7 +52,7 @@ const Filters = ({ setEquipment }) => {
   };
 
   return (
-    <div>
+    <div className={className}>
       <div>
         <label>
           <input
@@ -170,5 +170,6 @@ const Filters = ({ setEquipment }) => {
 export default Filters;
 
 Filters.propTypes = {
+  className: PropTypes.string,
   setEquipment: PropTypes.func.isRequired,
 };

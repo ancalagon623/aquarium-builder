@@ -91,7 +91,7 @@ const Start = () => {
           />
         </VideoWrapper>
       </Guides>
-      <SectionTitle>Completed Aquariums</SectionTitle>
+      <SectionTitle>Featured Aquariums</SectionTitle>
       <Builds>
         {featuredBuilds.map((b, i) => (
           <OneBuild key={b.bld_id}>
@@ -115,7 +115,6 @@ const Start = () => {
 export default Start;
 
 const SectionTitle = styled.h4`
-  margin-top: 15vh;
   font-size: 2rem;
   background-color: var(--theme);
   padding: 5px;
@@ -127,7 +126,7 @@ const Header = styled.div`
   flex-wrap: wrap;
   background-image: linear-gradient(rgba(0, 0, 0, 0.1), var(--theme) 85%);
   border-radius: 3px;
-  padding: 1rem;
+  padding: 1rem 1rem 3rem 1rem;
 `;
 
 const Motto = styled.div`
