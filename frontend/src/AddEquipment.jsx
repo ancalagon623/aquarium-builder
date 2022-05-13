@@ -53,6 +53,7 @@ const AddEquipment = () => {
             <h2>{currentCategory}</h2>
           </InnerCategoryName>
           <EquipmentItemHeading>
+            <PurpleBlock />
             <div />
             <h3>Name</h3>
             <h3>Price</h3>
@@ -146,15 +147,31 @@ const EquipmentItemHeading = styled.div`
   grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
   gap: 15px;
   align-items: center;
+  position: relative;
 `;
 
 const StyledFilters = styled(Filters)`
   background-color: var(--theme);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 `;
 
 const InnerCategoryName = styled.div`
-  display: inline-block;
-  background-color: var(--theme);
+  background-color: #59028b;
+  box-shadow: 4px 2px 3px 1px #30024b;
+  position: relative;
+  z-index: 100;
+`;
+
+const PurpleBlock = styled.div`
+  position: absolute;
+  z-index: 201;
+  background-color: #59028b;
+  width: 70px;
+  border-bottom-right-radius: 100%;
+  box-shadow: 4px 2px 3px 1px #30024b;
+  height: 100%;
+  left: 0;
+  top: 0;
 `;
 
 const Price = styled.span``;

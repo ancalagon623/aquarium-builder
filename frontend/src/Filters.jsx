@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FaCaretRight, FaCaretDown } from 'react-icons/fa';
 import axios from 'axios';
@@ -53,7 +54,7 @@ const Filters = ({ className, setEquipment }) => {
 
   return (
     <div className={className}>
-      <div>
+      {/* <div>
         <label>
           <input
             type="text"
@@ -63,106 +64,91 @@ const Filters = ({ className, setEquipment }) => {
             }}
           />
         </label>
-      </div>
-      <div>
-        Filter By Price
-        <button
+      </div> */}
+      <Section>
+        <DropdownButton
           type="button"
           onClick={() => {
             toggleFilterDropdown('price');
           }}
         >
           {showFilters.includes('price') ? <FaCaretDown /> : <FaCaretRight />}
-        </button>
+        </DropdownButton>
+        <SectionTitle>Filter By Price</SectionTitle>
         {showFilters.includes('price') ? (
-          <ul>
-            {/* <li>
-              <label>
-                None
-                <input
-                  type="radio"
-                  id="none"
-                  name="price-filter"
-                  onChange={handleFiltersChange}
-                />
-              </label>
-            </li> */}
+          <FilterCriteria>
             <li>
-              <label>
-                Highest to Lowest
-                <input
-                  type="radio"
-                  id="highest"
-                  checked={filters.sort === 'highest'}
-                  value="highest"
-                  name="price-filter"
-                  onChange={handleFiltersChange}
-                />
-              </label>
+              <StyledInput
+                type="radio"
+                id="highest"
+                checked={filters.sort === 'highest'}
+                value="highest"
+                name="price-filter"
+                onChange={handleFiltersChange}
+              />
+              <label htmlFor="highest">Highest to Lowest</label>
             </li>
             <li>
-              <label>
-                Lowest to Highest
-                <input
-                  type="radio"
-                  id="lowest"
-                  checked={filters.sort === 'lowest'}
-                  value="lowest"
-                  name="price-filter"
-                  onChange={handleFiltersChange}
-                />
-              </label>
+              <StyledInput
+                type="radio"
+                id="lowest"
+                checked={filters.sort === 'lowest'}
+                value="lowest"
+                name="price-filter"
+                onChange={handleFiltersChange}
+              />
+              <label htmlFor="lowest">Lowest to Highest</label>
             </li>
             <li>
-              <label>
-                Greater than:
-                <span>$</span>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0.00"
-                  id="lower-limit"
-                  value={filters['lower-limit']}
-                  onChange={handleFiltersChange}
-                />
-              </label>
+              <Label htmlFor="lower-limit">Greater than:</Label>
+              <span>$</span>
+              <StyledInput
+                type="number"
+                step="0.01"
+                min="0.00"
+                id="lower-limit"
+                name="lower-limit"
+                value={filters['lower-limit']}
+                onChange={handleFiltersChange}
+              />
             </li>
             <li>
-              <label>
-                Less than:
-                <span>$</span>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0.00"
-                  value={filters['upper-limit']}
-                  id="upper-limit"
-                  onChange={handleFiltersChange}
-                />
-              </label>
+              <Label htmlFor="upper-limit">Less than:</Label>
+              <span>$</span>
+              <StyledInput
+                name="upper-limit"
+                type="number"
+                step="0.01"
+                min="0.00"
+                value={filters['upper-limit']}
+                id="upper-limit"
+                onChange={handleFiltersChange}
+              />
             </li>
 
-            <button
-              type="button"
-              onClick={() => {
-                setFilters(initialFilter);
-                document.getElementById('lowest').checked = false;
-                document.getElementById('highest').checked = false;
-              }}
-            >
-              Clear All
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                filterEquipment();
-              }}
-            >
-              Filter
-            </button>
-          </ul>
+            <Buttons>
+              <FilterButton
+                type="button"
+                onClick={() => {
+                  setFilters(initialFilter);
+                  document.getElementById('lowest').checked = false;
+                  document.getElementById('highest').checked = false;
+                }}
+              >
+                Clear All
+              </FilterButton>
+              <FilterButton
+                type="button"
+                onClick={() => {
+                  filterEquipment();
+                }}
+              >
+                Filter
+              </FilterButton>
+            </Buttons>
+          </FilterCriteria>
         ) : null}
-      </div>
+      </Section>
     </div>
   );
 };
@@ -173,3 +159,56 @@ Filters.propTypes = {
   className: PropTypes.string,
   setEquipment: PropTypes.func.isRequired,
 };
+
+const Section = styled.div`
+  margin: 10px;
+  position: relative;
+  text-align: left;
+`;
+
+const SectionTitle = styled.div`
+  display: inline-block;
+  font-weight: 700;
+  margin-left: 20px;
+`;
+
+const FilterCriteria = styled.ul`
+  list-style: none;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  flex-direction: column;
+`;
+
+const Label = styled.label`
+  display: block;
+  padding-left: 12px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-self: left;
+  gap: 10px;
+`;
+
+const FilterButton = styled.button`
+  width: fit-content;
+  align-self: center;
+`;
+
+const DropdownButton = styled.button`
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 2px;
+`;
+
+const StyledInput = styled.input`
+  display: inline;
+  margin-left: 5px;
+`;
