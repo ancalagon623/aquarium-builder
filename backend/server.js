@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const routes = require('./routes');
 const setupDevDatabase = require('./routes/db-setup');
 
-app.post('/db-setup', setupDevDatabase);
+// app.post('/db-setup', setupDevDatabase);
 app.use('/api', routes);
 
 app.listen(process.env.PORT || 8000, () => {

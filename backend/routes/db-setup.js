@@ -18,6 +18,7 @@ const setupDevDatabase = async (req, res) => {
 
   // // obtain data from Aquatic Warehouse
   scrapeProducts().then((result) => {
+    console.log('scraping successful');
     pool.query(sql.addEquipment(Object.values(result).flat()));
   });
 
