@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { FaPlus } from 'react-icons/fa';
 import { addEquipmentToBuild } from './reducers/actions';
 import Filters from './Filters';
 
@@ -47,6 +48,9 @@ const AddEquipment = () => {
               Add {currentCategory} to '
               {currentBuild.name || '(no build available)'}'
             </TitleText>
+            <BackButton type="button" onClick={() => navigate('/builds/edit')}>
+              Back to {currentBuild.name || 'build'}
+            </BackButton>
           </PageTitle>
 
           <InnerCategoryName>
@@ -94,7 +98,7 @@ const AddEquipment = () => {
                     );
                   }}
                 >
-                  + Add to Build
+                  <FaPlus /> Add
                 </ChooseEqButton>
               </EquipmentItem>
             ))}
@@ -125,6 +129,7 @@ const PageTitle = styled.h2`
   padding-left: 15px;
   margin: 0 0 15px 0;
   display: flex;
+  justify-content: space-between;
   background-image: linear-gradient(to right, var(--theme), 40%, #ffffff28);
   border-radius: 5px;
 `;
@@ -133,11 +138,20 @@ const TitleText = styled.span`
   align-self: center;
 `;
 
-const SecondaryHeading = styled.h2`
-  grid-column-start: 1;
-  grid-column-end: 3;
-  font-size: inherit;
-  background-color: var(--theme);
+const BackButton = styled.button`
+  all: unset;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  padding: 3px;
+  &:hover {
+    border: 2px solid black;
+  }
+  cursor: pointer;
+  align-self: center;
+  margin-right: 20px;
 `;
 
 const EquipmentItemHeading = styled.div`
@@ -217,7 +231,20 @@ const VisitStore = styled.button`
   }
 `;
 
-const ChooseEqButton = styled.button``;
+const ChooseEqButton = styled.button`
+  all: unset;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid black;
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  justify-self: center;
+`;
 
 const ImageWrapper = styled.span`
   border: 2px solid rgba(0, 0, 0, 0.5);

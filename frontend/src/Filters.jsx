@@ -167,9 +167,9 @@ const Section = styled.div`
 `;
 
 const SectionTitle = styled.div`
-  display: inline-block;
   font-weight: 700;
-  margin-left: 20px;
+  padding-left: 20px;
+  border-bottom: 1px solid black;
 `;
 
 const FilterCriteria = styled.ul`
@@ -196,6 +196,17 @@ const Buttons = styled.div`
 `;
 
 const FilterButton = styled.button`
+  all: unset;
+  cursor: pointer;
+  border: 1px solid black;
+  padding: 3px;
+  border-radius: 5px;
+  &:hover {
+    background-color: wheat;
+  }
+  &:active {
+    transform: scale(0.98);
+  }
   width: fit-content;
   align-self: center;
 `;

@@ -53,9 +53,11 @@ const Header = () => {
             <NavItem>Build an Aquarium</NavItem>
           </Link>
 
-          <Link className="nav-link" to="/browse">
-            <NavItem>Browse All Aquariums</NavItem>
-          </Link>
+          {user.loggedIn ? (
+            <Link className="nav-link" to="/user">
+              <NavItem>My Aquariums</NavItem>
+            </Link>
+          ) : null}
         </NavList>
       </Navigator>
     </HeaderContainer>

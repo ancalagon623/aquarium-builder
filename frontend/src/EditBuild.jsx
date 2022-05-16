@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { FaPlus, FaTrash } from 'react-icons/fa';
+import axios from 'axios';
 import {
   getCategories,
   getBuild,
@@ -18,8 +19,16 @@ const EditBuild = () => {
   const [editMode, setEditMode] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  // const [selectedImage, setSelectedImage] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const uploadNewImage = async (file) => {
+    console.log('made it');
+    await axios.post(
+      `${process.env.REACT_APP_BACKEND}/api/${build.bld_id}/upload-image`
+    );
+  };
 
   useEffect(() => {
     // window.scrollTo(0, 0);
@@ -79,9 +88,18 @@ const EditBuild = () => {
     <>
       <SectionHeadings>
         <HeadingText>Edit Build Details</HeadingText>
+        <BackButton onClick={() => navigate('/user')}>
+          Back to My Aquariums
+        </BackButton>
       </SectionHeadings>
       <BuildProfileGrid>
         <ProfileImageWrapper>
+          <input
+            type="file"
+            onChange={(e) => {
+              uploadNewImage(e.target.files[0]);
+            }}
+          />
           <ProfileImage src={build.img_url || fillerImg} alt={build.name} />
         </ProfileImageWrapper>
         <Inset>
@@ -218,11 +236,28 @@ export default EditBuild;
 
 const SectionHeadings = styled.h2`
   background-image: linear-gradient(to right, var(--theme), 40%, #ffffff28);
+  margin-top: 0;
   height: 60px;
-  margin-top: 10vh;
   padding-left: 15px;
   border-radius: 5px;
   display: flex;
+  justify-content: space-between;
+`;
+
+const BackButton = styled.button`
+  all: unset;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  padding: 3px;
+  &:hover {
+    border: 2px solid black;
+  }
+  cursor: pointer;
+  align-self: center;
+  margin-right: 20px;
 `;
 
 const HeadingText = styled.span`
@@ -237,7 +272,7 @@ const BuildProfileGrid = styled.h3`
   padding: 1.5rem;
   border-radius: 5px;
   border-bottom-left-radius: 50px;
-  margin: 0 5%;
+  margin: 0 5% 10vh 5%;
   background-color: var(--theme);
   display: flex;
   justify-content: space-around;
@@ -267,18 +302,6 @@ const Inset = styled.div`
 `;
 
 const ProfileImage = styled.img``;
-
-const NameTitle = styled.div`
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-`;
-
-const DescriptionTitle = styled.div`
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-`;
 
 const InlineFlexWrapper = styled.div`
   display: flex;
