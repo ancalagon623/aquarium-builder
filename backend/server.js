@@ -27,8 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const routes = require('./routes');
-const setupDevDatabase =
-  process.env.NODE_ENV !== 'production' ? require('./routes/db-setup') : null;
+const setupDevDatabase = require('./routes/db-setup');
 
 app.post('/db-setup', setupDevDatabase);
 app.use('/api', routes);
