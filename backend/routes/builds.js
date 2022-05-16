@@ -45,10 +45,12 @@ exports.createBuild = async (req, res) => {
     if (created.rows.length) {
       res.send(created.rows[0]);
     } else {
+      console.log(created);
       res.send(500, 'Internal Database Error');
     }
   } catch (err) {
-    res.send(500, 'Internal Database Error');
+    console.log(err);
+    res.send(500, err);
   }
 };
 
