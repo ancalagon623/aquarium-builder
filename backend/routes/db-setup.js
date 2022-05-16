@@ -17,10 +17,11 @@ const setupDevDatabase = async (req, res) => {
     .catch((err) => console.log(err));
 
   // // obtain data from Aquatic Warehouse
-  const products = scrapeProducts();
+  scrapeProducts().then((result) => {
+    pool.query(sql.addEquipment(Object.values(result).flat()));
+  });
 
   // // save to database
-  pool.query(sql.addEquipment(Object.values(products).flat()));
 
   // TODO obtain data from Amazon (not MVP)
   // const params = {
