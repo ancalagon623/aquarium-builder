@@ -9,6 +9,7 @@ import Start from './Start';
 import NewBuild from './NewBuild';
 import EditBuild from './EditBuild';
 import AddEquipment from './AddEquipment';
+import ViewBuild from './ViewBuild';
 import { hydrateUserInfo } from './reducers/actions';
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Start />} />
           <Route path="user" element={<UserPage />} />
+          <Route path="builds/:buildId" element={<ViewBuild />} />
           <Route path="builds/create" element={<NewBuild />} />
           <Route path="builds/edit" element={<EditBuild />} />
           <Route path="builds/edit/add-equipment" element={<AddEquipment />} />
@@ -58,6 +60,7 @@ const MainDiv = styled.div`
 const Content = styled.div`
   background-color: #f3f0ec;
   z-index: 2;
+  border-radius: 5px;
   margin: 164px auto 0 auto;
   width: 80%;
   padding: 1rem;
