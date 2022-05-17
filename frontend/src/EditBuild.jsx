@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { FaPlus, FaTrash } from 'react-icons/fa';
-import axios from 'axios';
 import {
   getCategories,
   getBuild,
@@ -22,13 +21,6 @@ const EditBuild = () => {
   // const [selectedImage, setSelectedImage] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const uploadNewImage = async (file) => {
-    console.log('made it');
-    await axios.post(
-      `${process.env.REACT_APP_BACKEND}/api/${build.bld_id}/upload-image`
-    );
-  };
 
   useEffect(() => {
     // window.scrollTo(0, 0);
