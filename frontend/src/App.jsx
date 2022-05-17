@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Header from './Header';
 import UserPage from './UserPage';
@@ -15,6 +15,7 @@ import { hydrateUserInfo } from './reducers/actions';
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [buildToView, setBuildToView] = useState({});
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -28,9 +29,9 @@ const App = () => {
       <Header />
       <Content>
         <Routes>
-          <Route path="/" element={<Start />} />
+          <Route path="/" element={<Start setBuildToView={setBuildToView} />} />
           <Route path="user" element={<UserPage />} />
-          <Route path="builds/:buildId" element={<ViewBuild />} />
+          <Route path="builds/view" element={<ViewBuild />} />
           <Route path="builds/create" element={<NewBuild />} />
           <Route path="builds/edit" element={<EditBuild />} />
           <Route path="builds/edit/add-equipment" element={<AddEquipment />} />
@@ -46,6 +47,8 @@ const Background = styled.div`
   height: 100vh;
   width: 100vw;
   background-image: url('https://i.ytimg.com/vi/MmP6Ia1GN8c/maxresdefault.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   position: fixed;
 `;
 

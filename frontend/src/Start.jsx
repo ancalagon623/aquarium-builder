@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaFish, FaQuestion } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 import { fillerImg } from './UserPage';
 
-const Start = () => {
-  const [videoGuides, setVideoGuides] = useState([]);
+const Start = ({ setBuildToView }) => {
+  // const [videoGuides, setVideoGuides] = useState([]);
   const [featuredBuilds, setFeaturedBuilds] = useState([
     { bld_id: 1, bld_name: 'Crazy Fish', price: 120000, img_url: fillerImg },
     { bld_id: 2, bld_name: 'Funny Fish', price: 80000, img_url: fillerImg },
@@ -17,6 +18,10 @@ const Start = () => {
   useEffect(() => {
     getFeaturedBuilds();
   }, []);
+
+  const buildClickHandler = (build) => {
+
+  }
 
   return (
     <>
@@ -94,7 +99,12 @@ const Start = () => {
       <SectionTitle>Featured Aquariums</SectionTitle>
       <Builds>
         {featuredBuilds.map((b, i) => (
-          <OneBuild key={b.bld_id}>
+          <OneBuild
+            key={b.bld_id}
+            onClick={() => {
+              buildClickHandler(b);
+            }}
+          >
             <BuildImage src={b.img_url} alt={b.bld_name} />
             <Container>
               <Name>{b.bld_name}</Name>
@@ -110,6 +120,10 @@ const Start = () => {
       </Builds>
     </>
   );
+};
+
+Start.propTypes = {
+  setBuildToView: PropTypes.func.isRequired,
 };
 
 export default Start;
