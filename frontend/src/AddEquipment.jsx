@@ -67,7 +67,7 @@ const AddEquipment = () => {
 
           <StyledFilters setEquipment={setEquipment} />
           <EqList>
-            {equipment.map((e, i) => (
+            {equipment.map((e) => (
               <EquipmentItem key={e.eq_id}>
                 <ImageWrapper>
                   <Image src={e.img_url} alt={e.eq_name} />

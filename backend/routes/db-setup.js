@@ -17,10 +17,12 @@ const setupDevDatabase = async (req, res) => {
     .catch((err) => console.log(err));
 
   // // obtain data from Aquatic Warehouse
-  const products = await scrapeProducts();
+  scrapeProducts().then((result) => {
+    console.log('scraping successful');
+    pool.query(sql.addEquipment(Object.values(result).flat()));
+  });
 
   // // save to database
-  await pool.query(sql.addEquipment(Object.values(products).flat()));
 
   // TODO obtain data from Amazon (not MVP)
   // const params = {
@@ -35,7 +37,7 @@ const setupDevDatabase = async (req, res) => {
   // console.log(data);
   // writeFileSync('./amazon-data/2975459011.json', JSON.stringify(data));
 
-  res.send('done');
+  res.send('tables created, pending data warehouse update');
 };
 
 module.exports = setupDevDatabase;

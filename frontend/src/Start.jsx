@@ -1,15 +1,218 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaFish, FaQuestion } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router';
 import { fillerImg } from './UserPage';
 
-const Start = () => {
-  const [videoGuides, setVideoGuides] = useState([]);
+const Start = ({ setBuildToView }) => {
+  // const [videoGuides, setVideoGuides] = useState([]);
+  const navigate = useNavigate();
   const [featuredBuilds, setFeaturedBuilds] = useState([
-    { bld_id: 1, bld_name: 'Crazy Fish', price: 120000, img_url: fillerImg },
-    { bld_id: 2, bld_name: 'Funny Fish', price: 80000, img_url: fillerImg },
-    { bld_id: 3, bld_name: 'Red Fish', price: 100000, img_url: fillerImg },
-    { bld_id: 4, bld_name: 'Blue Fish', price: 150000, img_url: fillerImg },
+    {
+      bld_id: 1,
+      bld_name: 'Crazy Fish',
+      bld_description: 'Lorem ipsum dolor sit amet',
+      price: 114497,
+      img_url: fillerImg,
+      equipment: {
+        normalized: {},
+        list: [
+          {
+            eq_id: 9,
+            eq_name: 'ADA Lily Pipe P-1 Outflow (Return) 10mm',
+            seller: 'Aquatic Warehouse',
+            seller_site: 'https://www.aquaticwarehouse.com/',
+            type: 'ADA Freshwater Planted Products',
+            price: 8599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/ADA%20Lily%20Pipe%20Outflow%2013mmc-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/ADA-Freshwater-Planted-Products/ADA-Lily-Pipe-P-1-Outflow-Return-10mm',
+          },
+          {
+            eq_id: 194,
+            eq_name: 'Hikari Betta Bio-Gold Pellets 2.5 Grams',
+            type: 'Food for Fish and Invertibrates',
+            price: 299,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/723-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/food-for-fish-and-invertibrates/hikari-betta-bio-gold-pellets-25-grams',
+          },
+          {
+            eq_id: 174,
+            eq_name: 'AquaClear 20 Filter',
+            type: 'Filtration',
+            price: 2599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/5925034fbed3c_123-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/filtration/aquaclear-20-filter',
+          },
+          {
+            eq_id: 32,
+            eq_name:
+              'JBJ Rimless Flat Panel AIO 45 Gal. Aquarium and White Stand',
+            type: 'Aquariums',
+            price: 103000,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/JBJ%2025%20gallon%20AIO%20White%20-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/freshwater-aquariums/JBJ-Rimless-Flat-Panel-AIO-45 Gal-Aquarium-and-White-Stand',
+          },
+        ],
+      },
+    },
+    {
+      bld_id: 2,
+      bld_name: 'Funny Fish',
+      bld_description: 'Lorem ipsum dolor sit amet',
+      price: 114497,
+      img_url: fillerImg,
+      equipment: {
+        normalized: {},
+        list: [
+          {
+            eq_id: 9,
+            eq_name: 'ADA Lily Pipe P-1 Outflow (Return) 10mm',
+            seller: 'Aquatic Warehouse',
+            seller_site: 'https://www.aquaticwarehouse.com/',
+            type: 'ADA Freshwater Planted Products',
+            price: 8599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/ADA%20Lily%20Pipe%20Outflow%2013mmc-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/ADA-Freshwater-Planted-Products/ADA-Lily-Pipe-P-1-Outflow-Return-10mm',
+          },
+          {
+            eq_id: 194,
+            eq_name: 'Hikari Betta Bio-Gold Pellets 2.5 Grams',
+            type: 'Food for Fish and Invertibrates',
+            price: 299,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/723-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/food-for-fish-and-invertibrates/hikari-betta-bio-gold-pellets-25-grams',
+          },
+          {
+            eq_id: 174,
+            eq_name: 'AquaClear 20 Filter',
+            type: 'Filtration',
+            price: 2599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/5925034fbed3c_123-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/filtration/aquaclear-20-filter',
+          },
+          {
+            eq_id: 32,
+            eq_name:
+              'JBJ Rimless Flat Panel AIO 45 Gal. Aquarium and White Stand',
+            type: 'Aquariums',
+            price: 103000,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/JBJ%2025%20gallon%20AIO%20White%20-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/freshwater-aquariums/JBJ-Rimless-Flat-Panel-AIO-45 Gal-Aquarium-and-White-Stand',
+          },
+        ],
+      },
+    },
+    {
+      bld_id: 3,
+      bld_name: 'Red Fish',
+      bld_description: 'Lorem ipsum dolor sit amet',
+      price: 114497,
+      img_url: fillerImg,
+      equipment: {
+        normalized: {},
+        list: [
+          {
+            eq_id: 9,
+            eq_name: 'ADA Lily Pipe P-1 Outflow (Return) 10mm',
+            seller: 'Aquatic Warehouse',
+            seller_site: 'https://www.aquaticwarehouse.com/',
+            type: 'ADA Freshwater Planted Products',
+            price: 8599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/ADA%20Lily%20Pipe%20Outflow%2013mmc-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/ADA-Freshwater-Planted-Products/ADA-Lily-Pipe-P-1-Outflow-Return-10mm',
+          },
+          {
+            eq_id: 194,
+            eq_name: 'Hikari Betta Bio-Gold Pellets 2.5 Grams',
+            type: 'Food for Fish and Invertibrates',
+            price: 299,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/723-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/food-for-fish-and-invertibrates/hikari-betta-bio-gold-pellets-25-grams',
+          },
+          {
+            eq_id: 174,
+            eq_name: 'AquaClear 20 Filter',
+            type: 'Filtration',
+            price: 2599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/5925034fbed3c_123-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/filtration/aquaclear-20-filter',
+          },
+          {
+            eq_id: 32,
+            eq_name:
+              'JBJ Rimless Flat Panel AIO 45 Gal. Aquarium and White Stand',
+            type: 'Aquariums',
+            price: 103000,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/JBJ%2025%20gallon%20AIO%20White%20-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/freshwater-aquariums/JBJ-Rimless-Flat-Panel-AIO-45 Gal-Aquarium-and-White-Stand',
+          },
+        ],
+      },
+    },
+    {
+      bld_id: 4,
+      bld_name: 'Blue Fish',
+      bld_description: 'Lorem ipsum dolor sit amet',
+      price: 114497,
+      img_url: fillerImg,
+      equipment: {
+        normalized: {},
+        list: [
+          {
+            eq_id: 9,
+            eq_name: 'ADA Lily Pipe P-1 Outflow (Return) 10mm',
+            seller: 'Aquatic Warehouse',
+            seller_site: 'https://www.aquaticwarehouse.com/',
+            type: 'ADA Freshwater Planted Products',
+            price: 8599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/ADA%20Lily%20Pipe%20Outflow%2013mmc-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/ADA-Freshwater-Planted-Products/ADA-Lily-Pipe-P-1-Outflow-Return-10mm',
+          },
+          {
+            eq_id: 194,
+            eq_name: 'Hikari Betta Bio-Gold Pellets 2.5 Grams',
+            type: 'Food for Fish and Invertibrates',
+            price: 299,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/723-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/food-for-fish-and-invertibrates/hikari-betta-bio-gold-pellets-25-grams',
+          },
+          {
+            eq_id: 174,
+            eq_name: 'AquaClear 20 Filter',
+            type: 'Filtration',
+            price: 2599,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/product/5925034fbed3c_123-228x228.jpg',
+            link: 'https://www.aquaticwarehouse.com/filtration/aquaclear-20-filter',
+          },
+          {
+            eq_id: 32,
+            eq_name:
+              'JBJ Rimless Flat Panel AIO 45 Gal. Aquarium and White Stand',
+            type: 'Aquariums',
+            price: 103000,
+            img_url:
+              'https://www.aquaticwarehouse.com/image/cache/catalog/JBJ%2025%20gallon%20AIO%20White%20-228x228.PNG',
+            link: 'https://www.aquaticwarehouse.com/freshwater-aquariums/JBJ-Rimless-Flat-Panel-AIO-45 Gal-Aquarium-and-White-Stand',
+          },
+        ],
+      },
+    },
   ]);
 
   const getFeaturedBuilds = () => {};
@@ -17,6 +220,11 @@ const Start = () => {
   useEffect(() => {
     getFeaturedBuilds();
   }, []);
+
+  const buildClickHandler = (build) => {
+    setBuildToView(build);
+    navigate('/builds/view');
+  };
 
   return (
     <>
@@ -94,7 +302,12 @@ const Start = () => {
       <SectionTitle>Featured Aquariums</SectionTitle>
       <Builds>
         {featuredBuilds.map((b, i) => (
-          <OneBuild key={b.bld_id}>
+          <OneBuild
+            key={b.bld_id}
+            onClick={() => {
+              buildClickHandler(b);
+            }}
+          >
             <BuildImage src={b.img_url} alt={b.bld_name} />
             <Container>
               <Name>{b.bld_name}</Name>
@@ -110,6 +323,10 @@ const Start = () => {
       </Builds>
     </>
   );
+};
+
+Start.propTypes = {
+  setBuildToView: PropTypes.func.isRequired,
 };
 
 export default Start;
@@ -169,16 +386,16 @@ const StyledFaFish = styled(FaFish)`
 
 const MainIcon = styled.img`
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   min-width: 100px;
-  max-height: 300px;
+  max-height: 400px;
   min-height: 100px;
   object-fit: cover;
   border-radius: 50%;
 `;
 
 const Logo = styled.div`
-  padding: 2rem;
+  padding-top: 1rem;
   flex-grow: 1;
   text-align: center;
 `;
@@ -211,6 +428,7 @@ const OneBuild = styled.div`
   background-color: wheat;
   padding: 3px;
   border-radius: 2px;
+  cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   transition: box-shadow 100ms ease-in, transform 100ms ease-in;

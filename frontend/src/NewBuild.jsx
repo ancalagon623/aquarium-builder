@@ -95,7 +95,7 @@ const Container = styled.div`
   background-image: url('/background_1.jpg'), url('/background_2.jpg'),
     url('/background_3.jpg');
   background-color: var(--theme);
-  background-position: top 400px left 0px, top 200px left 0px,
+  background-position: top 500px left 0px, top 200px left 0px,
     top -200px left 0px;
   background-size: 100%, 100%, cover;
   background-clip: border-box, border-box, padding-box;

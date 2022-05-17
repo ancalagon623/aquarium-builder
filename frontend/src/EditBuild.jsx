@@ -94,12 +94,6 @@ const EditBuild = () => {
       </SectionHeadings>
       <BuildProfileGrid>
         <ProfileImageWrapper>
-          <input
-            type="file"
-            onChange={(e) => {
-              uploadNewImage(e.target.files[0]);
-            }}
-          />
           <ProfileImage src={build.img_url || fillerImg} alt={build.name} />
         </ProfileImageWrapper>
         <Inset>

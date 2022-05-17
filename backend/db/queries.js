@@ -171,7 +171,8 @@ sql.updateNameAndDescription = (buildId, info) => {
 };
 
 sql.getAllCategories = () => `
-  SELECT DISTINCT type FROM equipment;
+  SELECT DISTINCT type FROM equipment
+  ORDER BY type;
 `;
 
 sql.getEquipmentInCategory = (categoryName, query) => {

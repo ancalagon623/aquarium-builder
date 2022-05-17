@@ -102,16 +102,24 @@ const UserPage = () => {
     <UserContainer>
       <HeaderBackground>
         <Header>
-          <h2>Account Details</h2>
-          <h4>username: {username}</h4>
-          <h4>name: {name}</h4>
+          <AccountDetailHeader>Account Details</AccountDetailHeader>
+          <AccountDetailLineWrapper>
+            <AccountDetailLineHeader>Username</AccountDetailLineHeader>
+            <AccountDetailValue>{username}</AccountDetailValue>
+          </AccountDetailLineWrapper>
+          <AccountDetailLineWrapper>
+            <AccountDetailLineHeader>Name</AccountDetailLineHeader>
+            <AccountDetailValue>{name}</AccountDetailValue>
+          </AccountDetailLineWrapper>
         </Header>
       </HeaderBackground>
       <BuildList>
         <ColumnHeader>
-          <div />
+          <Spacer />
           <h4>Setup Name</h4>
           <h4>Total Price</h4>
+          <Spacer />
+          <Spacer />
         </ColumnHeader>
         {builds.map((b) => (
           <BuildItem key={b.bld_id}>
@@ -158,6 +166,8 @@ export default UserPage;
 const UserContainer = styled.div``;
 
 const HeaderBackground = styled.div`
+  position: relative;
+  height: 250px;
   background-color: var(--theme);
   border-radius: 5px;
   border-bottom-left-radius: 50px;
@@ -166,16 +176,56 @@ const HeaderBackground = styled.div`
 `;
 
 const Header = styled.div`
-  margin: 0 20% 7rem 20%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 8px 0 #09317c;
+  font-family: 'Open Sans', sans-serif;
+  left: 20%;
+  top: 10%;
+  bottom: 20%;
+  background-color: whitesmoke;
+`;
+
+const AccountDetailHeader = styled.h2`
+  margin: 0;
+  border-bottom: 3px solid #09317c94;
+  text-align: center;
+`;
+
+const AccountDetailLineHeader = styled.div`
+  padding: 5px;
+  border: 1px solid #09317c;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 0 #09317c;
+`;
+
+const AccountDetailLineWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+`;
+
+const AccountDetailValue = styled.span`
+  padding: 3px;
 `;
 
 const ColumnHeader = styled.li`
   display: grid;
+  gap: 10px;
   text-align: center;
-  grid-template-columns: 1fr 4fr 4fr;
+  grid-template-columns: 1fr 4fr 4fr 1fr 1fr;
   border: 1px solid black;
   border-radius: 5px;
   margin-bottom: 20px;
+`;
+
+const Spacer = styled.div`
+  width: 100px;
 `;
 
 const BuildName = styled.span`
@@ -192,6 +242,7 @@ const BuildList = styled.ul`
 
 const BuildItem = styled.div`
   display: grid;
+  gap: 10px;
   grid-template-columns: 1fr 4fr 4fr 1fr 1fr;
   border-bottom: 0.5px solid #05177a7e;
   margin-bottom: 10px;
@@ -221,28 +272,6 @@ const ButtonWrapper = styled.div`
   justify-content: center;
   position: relative;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-`;
-
-const PurchaseButton = styled.button`
-  all: unset;
-  background-color: #1764c9ce;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 250ms ease-in-out, transform 150ms ease;
-  padding: 1em 2em;
-  &:hover {
-    background-color: #2e02f1c0;
-  }
-  &:focus {
-    background-color: #2e02f1c0;
-    outline: 2px solid var(--theme);
-    outline-offset: 2px;
-  }
-  &:active {
-    transform: scale(0.9);
-  }
 `;
 
 const DeleteChecker = styled.div`
