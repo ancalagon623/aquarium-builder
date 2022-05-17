@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { createBuild } from './reducers/actions';
 
 const NewBuild = () => {
-  const currentBuild = useSelector((state) => state.builds.currentBuild);
-  const currentUser = useSelector((state) => state.user);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [validationError, setValidationError] = useState('');
