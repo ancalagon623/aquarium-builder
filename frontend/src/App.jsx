@@ -58,7 +58,7 @@ export default App;
 const Background = styled.div`
   height: 100vh;
   width: 100vw;
-  background-image: url('https://i.ytimg.com/vi/MmP6Ia1GN8c/maxresdefault.jpg');
+  background-image: url('/background_2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;

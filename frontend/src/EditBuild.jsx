@@ -131,7 +131,11 @@ const EditBuild = () => {
           <Label htmlFor="description">Description</Label>
           {!editMode.includes('description') ? (
             <InlineFlexWrapper>
-              <Description>{build.description}</Description>
+              {build.description ? (
+                <Description>{build.description}</Description>
+              ) : (
+                <div />
+              )}
               <EditFormButton
                 type="button"
                 onClick={() => {

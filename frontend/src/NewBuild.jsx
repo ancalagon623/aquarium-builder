@@ -92,7 +92,8 @@ const Title = styled.h2`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-image: url('/background_1.jpg'), url('/background_2.jpg'),
+  background-image: url('/background_1.jpg'),
+    url('https://pbs.twimg.com/media/EbqJVp3XYAEbuaZ.jpg:large'),
     url('/background_3.jpg');
   background-color: var(--theme);
   background-position: top 500px left 0px, top 200px left 0px,

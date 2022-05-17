@@ -168,7 +168,7 @@ const UserContainer = styled.div``;
 const HeaderBackground = styled.div`
   position: relative;
   height: 250px;
-  background-color: var(--theme);
+  background-image: linear-gradient(#0000001f, var(--theme));
   border-radius: 5px;
   border-bottom-left-radius: 50px;
   padding-top: 2rem;
