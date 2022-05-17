@@ -104,7 +104,7 @@ const Filters = ({ className, setEquipment }) => {
               <span>$</span>
               <StyledInput
                 type="number"
-                step="0.01"
+                step="5.00"
                 min="0.00"
                 id="lower-limit"
                 name="lower-limit"
@@ -118,7 +118,7 @@ const Filters = ({ className, setEquipment }) => {
               <StyledInput
                 name="upper-limit"
                 type="number"
-                step="0.01"
+                step="5.00"
                 min="0.00"
                 value={filters['upper-limit']}
                 id="upper-limit"

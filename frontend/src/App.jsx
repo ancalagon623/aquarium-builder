@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Header from './Header';
-import UserPage from './UserPage';
+import UserPage, { fillerImg } from './UserPage';
 import Start from './Start';
 import NewBuild from './NewBuild';
 import EditBuild from './EditBuild';
@@ -15,7 +15,16 @@ import { hydrateUserInfo } from './reducers/actions';
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [buildToView, setBuildToView] = useState({});
+  const [buildToView, setBuildToView] = useState({
+    bld_id: 356,
+    bld_name: 'No Build Selected',
+    price: 0,
+    img_url: fillerImg,
+    equipment: {
+      normalized: {},
+      list: [],
+    },
+  });
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -31,7 +40,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Start setBuildToView={setBuildToView} />} />
           <Route path="user" element={<UserPage />} />
-          <Route path="builds/view" element={<ViewBuild />} />
+          <Route
+            path="builds/view"
+            element={<ViewBuild build={buildToView} />}
+          />
           <Route path="builds/create" element={<NewBuild />} />
           <Route path="builds/edit" element={<EditBuild />} />
           <Route path="builds/edit/add-equipment" element={<AddEquipment />} />
